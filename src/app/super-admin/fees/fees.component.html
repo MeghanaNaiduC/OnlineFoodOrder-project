@@ -1,0 +1,42 @@
+<!--This page is used to manage the default settings for the whole of the applciation-->
+<div fxLayout="row wrap" #resizedDiv>
+    <div class="flex-p w-100">
+        <div class="table-responsive">
+            <table id="example2" style="margin-top: 10px" class="table table-bordered table-hover table-striped">
+                <thead class="tbl-head">
+                    <tr class="tr-grid-header">
+                        <th>Name</th>
+                        <th>Previous Value</th>
+                        <th>New Value</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngIf="showEmpty"><td colspan="5">No records found</td></tr>
+                    <tr *ngFor="let item of tableList">
+                        <td>{{item.name}}</td>
+                        <td *ngIf="item.name != 'Service Fee'">$ {{item.value}}</td>
+                        <td *ngIf="item.name == 'Service Fee'">{{item.value}} %</td>
+                        <td>
+                            <div>
+                                <input type="text" [(ngModel)] = "item.new_value" class="form-control" (keypress)="allow_only_numbers($event)"  placeholder="Enter Value" required>
+                            </div>
+                        </td>
+                        <td>
+                            <button type="button" style="margin-right: 10px; text-decoration: none" class="btn btn-success"
+                            mwlConfirmationPopover
+                            [popoverTitle]="popoverStatusTitle"
+                            [popoverMessage]="popoverStatusMessage"
+                            placement="left"
+                            (confirm)="saveSettings(item);"
+                            (cancel)="cancelClicked = true" [disabled]="(!item.new_value)">
+                                Save
+                        </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <mat-paginator [length]="totalSize" [pageIndex]="currentPage" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 50, 100]" (page)="handlePage($event)" showFirstLastButtons></mat-paginator>
+        </div>
+    </div>
+</div>

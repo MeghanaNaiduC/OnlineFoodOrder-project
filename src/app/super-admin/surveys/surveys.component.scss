@@ -1,0 +1,49 @@
+::ng-deep .pi-chevron-down:before {
+    content: "\e902" !important;
+}
+
+.question .form-group mat-radio-button:nth-child(2) {
+    padding-left: 15px;
+}
+
+.question mat-card {
+    padding: 24px 26px !important;
+}
+
+.question label {
+    padding-bottom: 10px;
+}
+
+.question {
+    padding-bottom: 20px;
+}
+
+.survey-container {
+    margin-bottom: 50px;
+}
+
+::ng-deep .mat-expansion-panel-body {
+    background: #ccc !important;
+    padding-top: 27px !important;
+}
+
+::ng-deep .mat-expansion-panel {
+    margin-bottom: 10px !important;
+}
+
+::ng-deep .noUi-value-sub {
+    color: black !important;
+    font-size: 15px !important;
+}
+
+::ng-deep .noUi-marker-horizontal.noUi-marker-large {
+    height: 10px !important;
+}
+
+::ng-deep .noUi-value-large {
+    color: black !important;
+}
+
+::ng-deep nouislider {
+    margin-bottom: 58px !important;
+}

@@ -1,0 +1,103 @@
+<!--This page is used to manage lookups-->
+<div fxLayout="row wrap" #resizedDiv>
+  <div class="flex-p w-100">
+    
+    <div class="row" style="margin-bottom:14px;">
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <div class="w-100 flex-p">
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <div class="w-100 flex-p">
+          <button mat-raised-button class="add-hover pull-right" style="background:#229494;color: white;" (click)="addIdeaDialog(null)"><mat-icon>add</mat-icon>&nbsp;Add
+            Idea</button>
+            <!-- <button mat-raised-button color="primary" class="pull-right filter-hover margin-right-10" (click)="filterToggle = !filterToggle">
+              <mat-icon>filter_list</mat-icon> Filter
+            </button> -->
+          </div>
+        </div>
+      </div>
+      
+      <!-- <div fxLayout="row wrap">
+        <div fxFlex="100" fxFlex.gt-sm fxFlex.sm class="flex-p w-100 margins" >
+          <mat-card class="filter">
+            <mat-card-content>
+              <div class="row">
+                <div class="col-lg-2">
+                  <mat-select color="primary" placeholder="--Search by Priority--" multiple [formControl]="toppingsPriority"  class="form-control">
+                    <mat-option [value]="0" (click)="selectAll(ec, 'priority')" #ec >All</mat-option>
+                    <mat-option *ngFor="let option of priorities" (click)="selectOne(ec, 'priority')" [value]="option.id">{{option.level}}</mat-option>
+                  </mat-select>
+                </div>
+                <div class="col-lg-2">
+                  <mat-select color="primary" placeholder="--Search by Completed--" multiple [formControl]="toppingsStatus"  class="form-control">
+                    <mat-option [value]="2" (click)="selectAll(et, 'complete')" #et >All</mat-option>
+                    <mat-option *ngFor="let option of status" (click)="selectOne(et, 'complete')" [value]="option.id">{{option.level}}</mat-option>
+                  </mat-select>  
+                </div>
+                <div class="col-lg-2">
+                  <div class="input-icon right">
+                    <input class="form-control" [formControl]="toppingsDate" placeholder="Search Before Target Date" class="form-control" id="db" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" name="dt1">
+                    <owl-date-time [pickerType]="'calendar'" #dt1></owl-date-time>
+                  </div>
+                  
+                </div>
+                <div class="col-lg-1">
+                  <button type="button" class="add-hover btn btn-success  pull-right" (click)="filterCampaigns()">Search</button>
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="margin-left: -18px;">
+                  <button class="btn filter-hover" style="background-color:#37474f; color:#fff !important" (click)="clearFilters()">Clear</button>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div> -->
+      <div class="table-responsive">
+        <table id="example2" class="table table-bordered table-hover table-striped">
+          <thead class="tbl-head">
+            <tr class="tr-grid-header">
+              <th style="min-width: 200px;">Subject</th>
+              <th>Description</th>
+              <th style="min-width: 100px;">Dev Date</th>
+              <th style="min-width: 100px;">QA Date</th>
+              <th style="min-width: 100px;">Demo Date</th>
+              <th>Priority</th>
+              <th class="text-center">Next</th>
+              <th class="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="showEmpty"><td colspan="8">No records found</td></tr>
+            <tr *ngFor="let item of ideas">
+              <td>{{item.subject}}</td>
+              <td>{{item.description}}</td>
+              <td>{{item.devDate ? item.devDate :'-' }}</td>
+              <td>{{item.qaDate ? item.qaDate :'-' }}</td>
+              <td>{{item.demoDate ? item.demoDate :'-' }}</td>
+              <td>{{item.priorityLevel == 1 ? 'High' : item.priorityLevel == 2 ? 'Medium' : 'Low'}}</td>
+              <td  class="text-center">
+                <mat-checkbox [checked]="item.is_next" (change)="updateIdea(item.idea_id, !item.is_next, 'next')"></mat-checkbox>
+              </td>
+              <td class="text-center">
+                <a (click)="addIdeaDialog(item)" style="cursor: pointer;">
+                  <i title="Edit Idea" class="fa fa-edit"></i>
+                </a>
+                <a mwlConfirmationPopover
+                [popoverTitle]="popoverTitle"
+                [popoverMessage]="popoverMessage"
+                placement="left"
+                [appendToBody]="true"
+                (confirm)="updateIdea(item.idea_id, !item.is_deleted, 'delete')"
+                (cancel)="cancelClicked = true">
+                <i style="cursor: pointer;" title="Delete Idea" class="fa fa-trash red"></i>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <mat-paginator [length]="totalSize" [pageIndex]="currentPage" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 50, 100]" (page)="handlePage($event)" showFirstLastButtons></mat-paginator>
+    </div>
+  </div>
+  
+</div>

@@ -1,0 +1,25 @@
+<div class="col-md-10 col-md-offset-1 survey-container">
+    <div class="logo">
+        <img src="../../../assets/img/logo.png">
+    </div>
+    <h1 class="pagetitle">Survey</h1>
+    <div class="col-md-12" style="padding-bottom:25px;">
+        <form #myForm="ngForm" (submit)="submitSurvey(myForm)" method="post" ngNativeValidate id="surveyform">
+            <div class="question col-md-12" *ngFor="let question of questionsArr;let i=index;">
+                <mat-card>
+                    <label>{{i+1}}&nbsp;&nbsp;{{question.question}}</label>
+                    <div class="form-group" *ngIf="question.question_type == 'rating'">
+                        <nouislider #slider [config]="someKeyboardConfig" [ngModelOptions]="{standalone: true}" [(ngModel)]="answers[question.question_id]"></nouislider>
+                    </div>
+                    <div class="form-group">
+                        <label>{{question.question_type == 'rating' ? "Why did you choose that answer?" : "" }}</label>
+                        <textarea class="form-control" rows="4" name="remarks[]" ngDefaultControl style="height: 99px !important;" [ngModelOptions]="{standalone: true}" [(ngModel)]="remarks[question.question_id]"></textarea>
+                    </div>
+                </mat-card>
+            </div>
+            <div class="col-md-12">
+                <input type="submit" value="Submit" class="btn btn-success">
+            </div>
+        </form>
+    </div>
+</div>

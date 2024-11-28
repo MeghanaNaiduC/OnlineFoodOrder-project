@@ -1,0 +1,11 @@
+.disabled {
+    color: gray !important;
+    cursor: not-allowed;
+    text-decoration: underline;
+    pointer-events: none;
+}
+.status:hover {
+    color: none !important;
+    text-decoration: none !important;
+    cursor: pointer !important;
+}

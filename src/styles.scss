@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import url('https://cdn.quilljs.com/1.2.2/quill.snow.css');
+@import url('https://cdn.quilljs.com/1.2.2/quill.bubble.css');
+@import "~nouislider/distribute/nouislider.min.css";
+// indigo-pink, deeppurple-amber, purple-green and pink-bluegrey.
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@import "app/theme/styles/base";
+@import "app/theme/styles/theme";
+@import "app/theme/styles/libs-override";
+@import "app/theme/styles/rtl";
+@import "./_bootstrap.scss";
+
+/* @import "~jqwidgets-scripts/jqwidgets/styles/jqx.base.css";
+
+@import "~jqwidgets-scripts/jqwidgets/styles/jqx.material.css"; */
+
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
+@import "~ng-pick-datetime/assets/style/picker.min.css";
+@import "~fullcalendar/dist/fullcalendar.min.css";
+@import 'node_modules/angular2-toaster/src/toaster';
+@import './prime-ng.scss';
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import "./custom_styles.scss";
+.app.indigo-light .mat-card:not([class*='mat-elevation-z']) {
+    box-shadow: 5px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 5px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 1px rgba(0, 0, 0, 0.12);
+}
+
+.toast-error,
+.toast-success {
+    font-size: 15px !important;
+}
+
+.padding0 {
+    padding: 0px !important;
+}
+
+.text-right {
+    text-align: right !important;
+}

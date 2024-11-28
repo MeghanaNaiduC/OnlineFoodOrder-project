@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Online Food Ordering</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+  <link rel="icon" type="image/x-icon" href="./favicon.ico">
+  
+</head>
+
+<body>
+  <app-root></app-root>
+  <script>
+      function openModal(event) {
+        document.getElementById("mod2").className = "modal fade in show";
+      }
+      function openPropModal(event) {
+        document.getElementById("mod1").className = "modal fade in show";
+      }
+      function openPermissionModal(event) {
+        document.getElementById("modal").className = "modal fade in show";
+      }
+  
+      function openOppModal(event) {
+        document.getElementById("mod2").className = "modal fade in show";
+      }
+      
+  
+      function saveModal(idname) {
+        document.getElementById("" + idname).className = "modal fade";
+      }
+  
+      function closeModal(idname) {
+        document.getElementById("" + idname).className = "modal fade";
+      }
+      
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQDn2o5lkzBI4Sc09UUNiHPtNqlxQTYeA"></script>
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBnpPKdUzr7M5jRm_dxM5w4dcQ_sBQ9P_c"></script> -->
+</body>
+
+</html>

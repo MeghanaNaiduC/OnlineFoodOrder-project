@@ -1,0 +1,423 @@
+<h4 mat-dialog-title>Add Course
+  <i *ngIf="showCancel" (click) = "close()" class="material-icons" style="float: right;cursor: pointer;">close</i>
+</h4>
+<hr>
+<mat-horizontal-stepper #stepper>
+  <mat-step>
+    <div mat-dialog-content>
+      <form class="form-horizontal" novalidate [formGroup]="addUserForm">
+        <ng-template matStepLabel>Course Details</ng-template>
+        <div style="margin-top: 15px;" class="form-group">
+          <label class="control-label col-sm-3 add-member-label">Course Name : </label>
+          <div class="col-sm-1"><i matTooltip="Golf course full name" class="material-icons">info</i></div>
+          <div class="col-sm-8">
+            <input type="text" formControlName="addCourseName" maxlength="100" class="form-control" placeholder="Enter Course Name" required>
+            <div *ngIf="!addCourseName.valid && (addCourseName.dirty || addCourseName.touched)" class="error-text">
+              <div *ngIf="addCourseName.errors.required">
+                Course name is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3 add-member-label">First Name : </label>
+          <div class="col-sm-1"><i matTooltip="Golf course admin/contact first name" class="material-icons">info</i></div>
+          <div class="col-sm-8">
+            <input type="text" formControlName="addFitsrName" maxlength="100" class="form-control" placeholder="Enter First Name" required>
+            <div *ngIf="!addFitsrName.valid && (addFitsrName.dirty || addFitsrName.touched)" class="error-text">
+              <div *ngIf="addFitsrName.errors.required">
+                First name is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3 add-member-label">Last Name : </label>
+          <div class="col-sm-1"><i matTooltip="Golf course admin/contact last name" class="material-icons">info</i></div>
+          <div class="col-sm-8">
+            <input type="text" formControlName="lastName" maxlength="100" class="form-control" placeholder="Enter Last Name" required>
+            <div *ngIf="!lastName.valid && (lastName.dirty || lastName.touched)" class="error-text">
+              <div *ngIf="lastName.errors.required">
+                Last name is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3 add-member-label" for="pwd">Phone : </label>
+          <div class="col-sm-1"><i matTooltip="Golf course admin / contact person phone number." class="material-icons">info</i></div>
+          <div class="col-sm-8">
+            <input type="text" formControlName="addContact" minlength="10" maxlength="10" class="form-control" (keypress)="accept_only_numbers($event)" placeholder="Enter Contact Number" required>
+            <div *ngIf="!addContact.valid && (addContact.dirty || addContact.touched)" class="error-text">
+              <div *ngIf="addContact.errors.required">
+                Contact number is required
+              </div>
+              <div *ngIf="addContact.errors.minlength">
+                Contact number must be atleast 10 digits long
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3 add-member-label" for="pwd">Email : </label>
+          <div class="col-sm-1"><i matTooltip="Golf course contact person email." class="material-icons">info</i></div>
+          <div class="col-sm-8">
+            <input type="email" email formControlName="addEmail" maxlength="100" class="form-control" placeholder="Enter Email" required>
+            <div *ngIf="!addEmail.valid && (addEmail.dirty || addEmail.touched)" class="error-text">
+              <div *ngIf="addEmail.errors.required">
+                Email is required
+              </div>
+              <div *ngIf="addEmail.errors.email">
+                Enter a valid email
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top: 15px;" class="form-group">
+          <label class="control-label col-sm-3 add-member-label">Country : </label>
+          <div class="col-sm-1"><i matTooltip="Golf course located country." class="material-icons">info</i></div>
+          <div class="col-sm-8">
+            <select class='select-option form-control' required formControlName="country" (change)="getProvincesDropdown($event.target.value, 1)" name="Select Country">
+              <option value="" selected>--Select Country--</option>
+              <option class='option' *ngFor='let country of countries' [value]="country.id">{{country.name}}</option>
+            </select>
+            <div *ngIf="!country.valid && (country.dirty || country.touched)" class="error-text">
+              <div *ngIf="country.errors.required">
+                Country is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top: 15px;" class="form-group">
+          <label class="control-label col-sm-3 add-member-label">State / Province : </label>
+          <div class="col-sm-1"><i matTooltip="Golf course located state / Province." class="material-icons">info</i></div>
+          <div class="col-sm-8">
+            <select class='select-option form-control' required formControlName="province"  (change)="getCitiesDropdown($event.target.value, 1, 1)" name="Select Province">
+              <option value="" selected>--Select Province--</option>
+              <option class='option' *ngFor='let province of provinces' [value]="province.id">{{province.name}}</option>
+            </select>
+            <div *ngIf="!province.valid && (province.dirty || province.touched)" class="error-text">
+              <div *ngIf="province.errors.required">
+                Province is required
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div style="margin-top: 15px;" class="form-group">
+          <label class="control-label col-sm-3 add-member-label">City : </label>
+          <div class="col-sm-1"><i matTooltip="Golf course located city / area." class="material-icons">info</i></div>
+          <div class="col-sm-8">
+            <select class='select-option form-control' required formControlName="city"  name="Select City">
+              <option value="" selected>--Select City--</option>
+              <option class='option' *ngFor='let city of cities' [value]="city.id">{{city.name}}</option>
+            </select>
+            <div *ngIf="!city.valid && (city.dirty || city.touched)" class="error-text">
+              <div *ngIf="city.errors.required">
+                City is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3 add-member-label" for="pwd">Address : </label>
+          <div class="col-sm-1"><i matTooltip="Golf course actual address." class="material-icons">info</i></div>
+          <div class="col-sm-8">
+            <textarea class="form-control txtarea" maxlength="300" formControlName="courseAddress" rows="2" placeholder="Enter address" required></textarea>
+            <div *ngIf="!courseAddress.valid && (courseAddress.dirty || courseAddress.touched)" class="error-text">
+              <div *ngIf="courseAddress.errors.required">
+                Course address is required
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <mat-dialog-actions align="end">
+      <button mat-raised-button [disabled]="!addUserForm.valid" [ngClass]="!addUserForm.valid ? '' : 'btn-success' " matStepperNext>Proceed</button>
+      <button mat-raised-button class="add-dark-hover btn-default" (click)="close()">Cancel</button>
+    </mat-dialog-actions>
+  </mat-step>
+  
+  
+  <mat-step>
+    <div mat-dialog-content>
+      <form class="form-horizontal">
+        <ng-template matStepLabel>Summary</ng-template>
+        <div style="margin-top: 15px;" class="form-group">
+          <label class="control-label col-sm-2" >Course Name : </label>
+          <!-- <div class="col-sm-1"><i matTooltip="Golf course full name" class="material-icons">info</i></div> -->
+          <div class="col-sm-10">
+            <label class="control-label">{{addUserForm.value.addCourseName}}</label>
+            <!-- <input type="text" maxlength="100" class="form-control" placeholder="Enter Course Name" [value]="addUserForm.value.addCourseName"> -->
+            <!-- <div *ngIf="!addCourseName.valid && (addCourseName.dirty || addCourseName.touched)" class="error-text">
+              <div *ngIf="addCourseName.errors.required">
+                Course name is required
+              </div>
+            </div> -->
+          </div>
+        </div>
+        <div style="margin-top: 15px;" class="form-group">
+          <label class="control-label col-sm-2" >Phone : </label>
+          <!-- <div class="col-sm-1"><i matTooltip="Golf course full name" class="material-icons">info</i></div> -->
+          <div class="col-sm-10">
+            <label class="control-label">{{addUserForm.value.addContact}}</label>
+            <!-- <input type="text" maxlength="100" class="form-control" placeholder="Enter Course Name" [value]="addUserForm.value.addCourseName"> -->
+            <!-- <div *ngIf="!addCourseName.valid && (addCourseName.dirty || addCourseName.touched)" class="error-text">
+              <div *ngIf="addCourseName.errors.required">
+                Course name is required
+              </div>
+            </div> -->
+          </div>
+        </div>
+        <div style="margin-top: 15px;" class="form-group">
+          <label class="control-label col-sm-2" >Email : </label>
+          <!-- <div class="col-sm-1"><i matTooltip="Golf course full name" class="material-icons">info</i></div> -->
+          <div class="col-sm-10">
+            <label class="control-label">{{addUserForm.value.addEmail}}</label>
+            <!-- <input type="text" maxlength="100" class="form-control" placeholder="Enter Course Name" [value]="addUserForm.value.addCourseName"> -->
+            <!-- <div *ngIf="!addCourseName.valid && (addCourseName.dirty || addCourseName.touched)" class="error-text">
+              <div *ngIf="addCourseName.errors.required">
+                Course name is required
+              </div>
+            </div> -->
+          </div>
+        </div>
+        <div style="margin-top: 15px;" class="form-group">
+          <label class="control-label col-sm-2" >Basic Fee : </label>
+          <!-- <div class="col-sm-1"><i matTooltip="Golf course full name" class="material-icons">info</i></div> -->
+          <div class="col-sm-10">
+            <label class="control-label">$500.00</label>
+            <!-- <input type="text" maxlength="100" class="form-control" placeholder="Enter Course Name" [value]="addUserForm.value.addCourseName"> -->
+            <!-- <div *ngIf="!addCourseName.valid && (addCourseName.dirty || addCourseName.touched)" class="error-text">
+              <div *ngIf="addCourseName.errors.required">
+                Course name is required
+              </div>
+            </div> -->
+          </div>
+        </div>
+        <div style="margin-top: 15px;" class="form-group">
+          <label class="control-label col-sm-2" >12 Months : </label>
+          <!-- <div class="col-sm-1"><i matTooltip="Golf course full name" class="material-icons">info</i></div> -->
+          <div class="col-sm-10">
+            <label class="control-label">12 * $98.00</label>
+            <!-- <input type="text" maxlength="100" class="form-control" placeholder="Enter Course Name" [value]="addUserForm.value.addCourseName"> -->
+            <!-- <div *ngIf="!addCourseName.valid && (addCourseName.dirty || addCourseName.touched)" class="error-text">
+              <div *ngIf="addCourseName.errors.required">
+                Course name is required
+              </div>
+            </div> -->
+          </div>
+        </div>
+        <div style="margin-top: 15px;" class="form-group">
+          <label class="control-label col-sm-2" >Discount : </label>
+          <!-- <div class="col-sm-1"><i matTooltip="Golf course full name" class="material-icons">info</i></div> -->
+          <div class="col-sm-10">
+            <label class="control-label">$ 50.00</label>
+            <!-- <input type="text" maxlength="100" class="form-control" placeholder="Enter Course Name" [value]="addUserForm.value.addCourseName"> -->
+            <!-- <div *ngIf="!addCourseName.valid && (addCourseName.dirty || addCourseName.touched)" class="error-text">
+              <div *ngIf="addCourseName.errors.required">
+                Course name is required
+              </div>
+            </div> -->
+          </div>
+        </div>
+        <div style="margin-top: 15px;" class="form-group">
+          <label class="control-label col-sm-2" >Credit Card Fee : </label>
+          <!-- <div class="col-sm-1"><i matTooltip="Golf course full name" class="material-icons">info</i></div> -->
+          <div class="col-sm-10">
+            <label class="control-label">2.90% + $0.30</label>
+            <!-- <input type="text" maxlength="100" class="form-control" placeholder="Enter Course Name" [value]="addUserForm.value.addCourseName"> -->
+            <!-- <div *ngIf="!addCourseName.valid && (addCourseName.dirty || addCourseName.touched)" class="error-text">
+              <div *ngIf="addCourseName.errors.required">
+                Course name is required
+              </div>
+            </div> -->
+          </div>
+        </div>
+        <div style="margin-top: 15px;" class="form-group">
+          <label class="control-label col-sm-2" >Service Fee : </label>
+          <!-- <div class="col-sm-1"><i matTooltip="Golf course full name" class="material-icons">info</i></div> -->
+          <div class="col-sm-10">
+            <label class="control-label">7.00%</label>
+            <!-- <input type="text" maxlength="100" class="form-control" placeholder="Enter Course Name" [value]="addUserForm.value.addCourseName"> -->
+            <!-- <div *ngIf="!addCourseName.valid && (addCourseName.dirty || addCourseName.touched)" class="error-text">
+              <div *ngIf="addCourseName.errors.required">
+                Course name is required
+              </div>
+            </div> -->
+          </div>
+        </div>
+        <div style="margin-top: 15px;" class="form-group">
+          <label class="control-label col-sm-2" >Tax : </label>
+          <!-- <div class="col-sm-1"><i matTooltip="Golf course full name" class="material-icons">info</i></div> -->
+          <div class="col-sm-10">
+            <label class="control-label">0%</label>
+            <!-- <input type="text" maxlength="100" class="form-control" placeholder="Enter Course Name" [value]="addUserForm.value.addCourseName"> -->
+            <!-- <div *ngIf="!addCourseName.valid && (addCourseName.dirty || addCourseName.touched)" class="error-text">
+              <div *ngIf="addCourseName.errors.required">
+                Course name is required
+              </div>
+            </div> -->
+          </div>
+        </div>
+        
+        <div style="margin-top: 15px;" class="form-group">
+          <label class="control-label col-sm-2" >Payment : </label>
+          <!-- <div class="col-sm-1"><i matTooltip="Golf course full name" class="material-icons">info</i></div> -->
+          <div class="col-sm-10">
+            <label class="control-label">Full Payment</label>
+            <!-- <input type="text" maxlength="100" class="form-control" placeholder="Enter Course Name" [value]="addUserForm.value.addCourseName"> -->
+            <!-- <div *ngIf="!addCourseName.valid && (addCourseName.dirty || addCourseName.touched)" class="error-text">
+              <div *ngIf="addCourseName.errors.required">
+                Course name is required
+              </div>
+            </div> -->
+          </div>
+        </div>
+        <div style="margin-top: 15px;" class="form-group">
+          <label class="control-label col-sm-2" >Payment Mode : </label>
+          <!-- <div class="col-sm-1"><i matTooltip="Golf course full name" class="material-icons">info</i></div> -->
+          <div class="col-sm-10">
+            <label class="control-label">Paper Check</label>
+            <!-- <input type="text" maxlength="100" class="form-control" placeholder="Enter Course Name" [value]="addUserForm.value.addCourseName"> -->
+            <!-- <div *ngIf="!addCourseName.valid && (addCourseName.dirty || addCourseName.touched)" class="error-text">
+              <div *ngIf="addCourseName.errors.required">
+                Course name is required
+              </div>
+            </div> -->
+          </div>
+        </div>
+        <div style="margin-top: 15px;" class="form-group">
+          <label class="control-label col-sm-2" >Total Amount : </label>
+          <!-- <div class="col-sm-1"><i matTooltip="Golf course full name" class="material-icons">info</i></div> -->
+          <div class="col-sm-10">
+            <label class="control-label">$ 1792.22</label>
+            <!-- <input type="text" maxlength="100" class="form-control" placeholder="Enter Course Name" [value]="addUserForm.value.addCourseName"> -->
+            <!-- <div *ngIf="!addCourseName.valid && (addCourseName.dirty || addCourseName.touched)" class="error-text">
+              <div *ngIf="addCourseName.errors.required">
+                Course name is required
+              </div>
+            </div> -->
+          </div>
+        </div>
+        <!-- <div class="form-group">
+          <label class="control-label col-sm-3 add-member-label">First Name : </label>
+          <div class="col-sm-1"><i matTooltip="Golf course admin/contact first name" class="material-icons">info</i></div>
+          <div class="col-sm-8">
+            <input type="text" formControlName="addFitsrName" maxlength="100" class="form-control" placeholder="Enter First Name" required>
+            <div *ngIf="!addFitsrName.valid && (addFitsrName.dirty || addFitsrName.touched)" class="error-text">
+              <div *ngIf="addFitsrName.errors.required">
+                First name is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3 add-member-label">Last Name : </label>
+          <div class="col-sm-1"><i matTooltip="Golf course admin/contact last name" class="material-icons">info</i></div>
+          <div class="col-sm-8">
+            <input type="text" formControlName="lastName" maxlength="100" class="form-control" placeholder="Enter Last Name" required>
+            <div *ngIf="!lastName.valid && (lastName.dirty || lastName.touched)" class="error-text">
+              <div *ngIf="lastName.errors.required">
+                Last name is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3 add-member-label" for="pwd">Phone : </label>
+          <div class="col-sm-1"><i matTooltip="Golf course admin / contact person phone number." class="material-icons">info</i></div>
+          <div class="col-sm-8">
+            <input type="text" formControlName="addContact" minlength="10" maxlength="10" class="form-control" (keypress)="accept_only_numbers($event)" placeholder="Enter Contact Number" required>
+            <div *ngIf="!addContact.valid && (addContact.dirty || addContact.touched)" class="error-text">
+              <div *ngIf="addContact.errors.required">
+                Contact number is required
+              </div>
+              <div *ngIf="addContact.errors.minlength">
+                Contact number must be atleast 10 digits long
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3 add-member-label" for="pwd">Email : </label>
+          <div class="col-sm-1"><i matTooltip="Golf course contact person email." class="material-icons">info</i></div>
+          <div class="col-sm-8">
+            <input type="email" email formControlName="addEmail" maxlength="100" class="form-control" placeholder="Enter Email" required>
+            <div *ngIf="!addEmail.valid && (addEmail.dirty || addEmail.touched)" class="error-text">
+              <div *ngIf="addEmail.errors.required">
+                Email is required
+              </div>
+              <div *ngIf="addEmail.errors.email">
+                Enter a valid email
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top: 15px;" class="form-group">
+          <label class="control-label col-sm-3 add-member-label">Country : </label>
+          <div class="col-sm-1"><i matTooltip="Golf course located country." class="material-icons">info</i></div>
+          <div class="col-sm-8">
+            <select class='select-option form-control' required formControlName="country" (change)="getProvincesDropdown($event.target.value, 1)" name="Select Country">
+              <option value="" selected>--Select Country--</option>
+              <option class='option' *ngFor='let country of countries' [value]="country.id">{{country.name}}</option>
+            </select>
+            <div *ngIf="!country.valid && (country.dirty || country.touched)" class="error-text">
+              <div *ngIf="country.errors.required">
+                Country is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top: 15px;" class="form-group">
+          <label class="control-label col-sm-3 add-member-label">State / Province : </label>
+          <div class="col-sm-1"><i matTooltip="Golf course located state / Province." class="material-icons">info</i></div>
+          <div class="col-sm-8">
+            <select class='select-option form-control' required formControlName="province"  (change)="getCitiesDropdown($event.target.value, 1, 1)" name="Select Province">
+              <option value="" selected>--Select Province--</option>
+              <option class='option' *ngFor='let province of provinces' [value]="province.id">{{province.name}}</option>
+            </select>
+            <div *ngIf="!province.valid && (province.dirty || province.touched)" class="error-text">
+              <div *ngIf="province.errors.required">
+                Province is required
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div style="margin-top: 15px;" class="form-group">
+          <label class="control-label col-sm-3 add-member-label">City : </label>
+          <div class="col-sm-1"><i matTooltip="Golf course located city / area." class="material-icons">info</i></div>
+          <div class="col-sm-8">
+            <select class='select-option form-control' required formControlName="city"  name="Select City">
+              <option value="" selected>--Select City--</option>
+              <option class='option' *ngFor='let city of cities' [value]="city.id">{{city.name}}</option>
+            </select>
+            <div *ngIf="!city.valid && (city.dirty || city.touched)" class="error-text">
+              <div *ngIf="city.errors.required">
+                City is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3 add-member-label" for="pwd">Address : </label>
+          <div class="col-sm-1"><i matTooltip="Golf course actual address." class="material-icons">info</i></div>
+          <div class="col-sm-8">
+            <textarea class="form-control txtarea" maxlength="300" formControlName="courseAddress" rows="2" placeholder="Enter address" required></textarea>
+            <div *ngIf="!courseAddress.valid && (courseAddress.dirty || courseAddress.touched)" class="error-text">
+              <div *ngIf="courseAddress.errors.required">
+                Course address is required
+              </div>
+            </div>
+          </div>
+        </div> -->
+      </form>
+    </div>
+    <mat-dialog-actions align="end">
+      <button mat-raised-button [disabled]="!addUserForm.valid" [ngClass]="!addUserForm.valid ? '' : 'btn-success' " (click)="saveAndCreateCourse()">Save</button>
+      <button mat-raised-button class="add-dark-hover btn-default" (click)="close()">Cancel</button>
+    </mat-dialog-actions>
+  </mat-step>
+</mat-horizontal-stepper>

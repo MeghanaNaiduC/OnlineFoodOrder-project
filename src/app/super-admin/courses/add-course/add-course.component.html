@@ -1,0 +1,643 @@
+<!--This page is used to add or edit leads-->
+<div>
+  <h1 mat-dialog-title><span *ngIf="!course">Add</span><span *ngIf="course">Edit</span> Course</h1> <hr>
+  <mat-horizontal-stepper #stepper>
+    <mat-step>
+      <div mat-dialog-content>
+        <form class="form-horizontal" novalidate [formGroup]="addUserForm">
+          <ng-template matStepLabel>Profile</ng-template>
+          <div style="margin-top: 15px;" class="form-group">
+            <label class="control-label col-sm-4 add-member-label">Course Name : </label>
+            <div class="col-sm-8">
+              <input type="text" formControlName="addCourseName" maxlength="100" class="form-control" placeholder="Enter Course Name" required>
+              <div *ngIf="!addCourseName.valid && (addCourseName.dirty || addCourseName.touched)" class="error-text">
+                <div *ngIf="addCourseName.errors.required">
+                  Course name is required
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-4 add-member-label">Contact First Name : </label>
+            <div class="col-sm-8">
+              <input type="text" formControlName="firstName" maxlength="100" class="form-control" placeholder="Enter Contact Name" required>
+              <div *ngIf="!firstName.valid && (firstName.dirty || firstName.touched)" class="error-text">
+                <div *ngIf="firstName.errors.required">
+                  First name is required
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-4 add-member-label">Contact Last Name : </label>
+            <div class="col-sm-8">
+              <input type="text" formControlName="lastName" maxlength="100" class="form-control" placeholder="Enter Contact Name" required>
+              <div *ngIf="!lastName.valid && (lastName.dirty || lastName.touched)" class="error-text">
+                <div *ngIf="lastName.errors.required">
+                  Last name is required
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-4 add-member-label" for="pwd">Phone : </label>
+            <div class="col-sm-8">
+              <input type="text" formControlName="addContact" minlength="10" maxlength="10" class="form-control" (keypress)="accept_only_numbers($event)" placeholder="Enter Contact Number" required>
+              <div *ngIf="!addContact.valid && (addContact.dirty || addContact.touched)" class="error-text">
+                <div *ngIf="addContact.errors.required">
+                  Contact number is required
+                </div>
+                <div *ngIf="addContact.errors.minlength">
+                  Contact number must be atleast 10 digits long
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-4 add-member-label" for="pwd">Email : </label>
+            <div class="col-sm-8">
+              <input type="email" email formControlName="addEmail" maxlength="100" class="form-control" placeholder="Enter Email" required>
+              <div *ngIf="!addEmail.valid && (addEmail.dirty || addEmail.touched)" class="error-text">
+                <div *ngIf="addEmail.errors.required">
+                  Email is required
+                </div>
+                <div *ngIf="addEmail.errors.email">
+                  Enter a valid email
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-4 add-member-label">DOB : </label>
+            <div class="col-sm-8">
+              <input type="text" [max]="maxDate" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" placeholder="MM/DD/YYYY" formControlName="dob" maxlength="100" class="form-control" required>
+              <owl-date-time [pickerType]="'calendar'" #dt1></owl-date-time>
+              <div *ngIf="!dob.valid && (dob.dirty || dob.touched)" class="error-text">
+                <div *ngIf="dob.errors.required">
+                  Date of birth is required
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-4 add-member-label">Passport number : </label>
+            <div class="col-sm-8">
+              <input type="text" formControlName="passport" maxlength="100" class="form-control" placeholder="Enter passport number" required>
+              <div *ngIf="!passport.valid && (passport.dirty || passport.touched)" class="error-text">
+                <div *ngIf="passport.errors.required">
+                  Passport number is required
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-4 add-member-label">PIN / NIN number : </label>
+            <div class="col-sm-8">
+              <input type="text" formControlName="pinNo" maxlength="100" class="form-control" placeholder="Enter PIN / NIN" required>
+              <div *ngIf="!pinNo.valid && (pinNo.dirty || pinNo.touched)" class="error-text">
+                <div *ngIf="pinNo.errors.required">
+                  PIN / NIN number is required
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+          
+
+
+
+
+
+
+
+
+          <div class="form-group" *ngIf="!course">
+            <label class="control-label col-sm-4 add-member-label" for="pwd">Password : </label>
+            <div class="col-sm-8">
+                <div class="input-icon right">
+                    <!-- <i class="fa fa-key"></i> -->
+                    <tooltip-content [animation]="true" #myTooltip placement="right" class="position">
+                        <h4 style="color: black">Suggested Password Combinations</h4>
+                        <div style="text-align:left;padding:10px">
+                            <ul style="list-style: none;">
+                                <li id="letter" [ngClass]="isOneLetter?'valid':'invalid'">At least
+                                    <strong>one letter</strong>
+                                </li>
+                                <li id="capital" [ngClass]="isOneCapitalLetter?'valid':'invalid'">At least
+                                    <strong>one capital letter</strong>
+                                </li>
+                                <li id="number" [ngClass]="isOneNumber?'valid':'invalid'">At least
+                                    <strong>one number</strong>
+                                </li>
+                                <li id="specialchar" [ngClass]="isOneSpecialCaharacter?'valid':'invalid'">At least
+                                    <strong>one special character</strong>
+                                </li>
+                                <li id="length" [ngClass]="isMinLength?'valid':'invalid'">Be at least
+                                    <strong>8 characters</strong>
+                                </li>
+                            </ul>
+                        </div>
+                    </tooltip-content>
+                    <input [tooltip]="myTooltip" autocomplete="off"  tooltipPlacement='right' (keydown.space)="$event.preventDefault()" onDrag="return false" onDrop="return false" (keyup)="onKeyPress(addPassword)" type="password" autocomplete="off" formControlName="addPassword" class="form-control" placeholder="Enter New Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[!@#\$%\^&\_\+\<\>\.\,\=\:\;\'\?\(\)\[\]\\\/\|\*{}-])(?=.*[A-Z]).{8,20}" required>
+                    <div *ngIf="!addPassword.valid && (addPassword.dirty || addPassword.touched)" class="error-text">
+                            <div *ngIf="addPassword.errors.required">
+                                    Password is required
+                            </div>
+                    </div>
+                </div>
+              <!-- <input type="password" email formControlName="addPassword" maxlength="20" minlength="6" class="form-control" placeholder="Enter Password" required>
+              <div *ngIf="!addPassword.valid && (addPassword.dirty || addPassword.touched)" class="error-text">
+                <div *ngIf="addPassword.errors.required">
+                  Password is required
+                </div>
+                <div *ngIf="addEmail.errors.minlength">
+                  Password isn't long enough, minimum 6 characters are required 
+                </div>
+              </div> -->
+            </div>
+          </div>
+          <div class="form-group" *ngIf="!course">
+            <label class="control-label col-sm-4 add-member-label" for="pwd">Confirm Password : </label>
+            <div class="col-sm-8">
+
+                <div class="input-icon right">
+                    <!-- <i class="fa fa-key"></i> -->
+                    <input type="password" autocomplete="off" formControlName="addConfirmPassword" (keydown.space)="$event.preventDefault()" onDrag="return false" onDrop="return false" class="form-control" placeholder="Confirm New Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[!@#\$%\^&\_\+\<\>\.\,\=\:\;\'\?\(\)\[\]\\\/\|\*{}-])(?=.*[A-Z]).{8,20}" required>
+                    <div *ngIf="!addConfirmPassword.valid && (addConfirmPassword.dirty || addConfirmPassword.touched)" class="error-text">
+                            <div *ngIf="addConfirmPassword.errors.required">
+                                    Password is required
+                            </div>
+                            <div *ngIf="addConfirmPassword.errors.mustMatch">
+                                    New password and confirm password not matched.
+                            </div>
+                    </div>
+                </div>
+              <!-- <input type="password" email formControlName="addConfirmPassword" maxlength="20" minlength="6" class="form-control" placeholder="Enter Password" required>
+              <div *ngIf="!addConfirmPassword.valid && (addConfirmPassword.dirty || addConfirmPassword.touched)" class="error-text">
+                <div *ngIf="addConfirmPassword.errors.required">
+                  Password is required
+                </div>
+                <div *ngIf="addEmail.errors.minlength">
+                  Password isn't long enough, minimum 6 characters are required 
+                </div>
+              </div> -->
+            </div>
+          </div>
+        </form>
+      </div>
+      <mat-dialog-actions align="end">
+        <button mat-raised-button [disabled]="!addUserForm.valid" [ngClass]="!addUserForm.valid ? '' : 'btn-success' " matStepperNext>Proceed</button>
+        <button mat-raised-button class="add-dark-hover btn-default" (click)="close()">Cancel</button>
+      </mat-dialog-actions>
+    </mat-step>
+    
+    <mat-step>
+      <div mat-dialog-content>
+        <form class="form-horizontal" novalidate [formGroup]="courseAddressForm">
+          <ng-template matStepLabel>Address</ng-template>
+          <div style="margin-top: 15px;" class="form-group">
+            <label class="control-label col-sm-4 add-member-label">Province : </label>
+            <div class="col-sm-8">
+              <select class='select-option form-control' required formControlName="province"  name="Select Province">
+                <option value="" selected>--Select Province--</option>
+                <option class='option' *ngFor='let province of provinces' [value]="province.id">{{province.province}}</option>
+              </select>
+              <div *ngIf="!province.valid && (province.dirty || province.touched)" class="error-text">
+                <div *ngIf="province.errors.required">
+                  Province is required
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-lg-4 col-md-4 col-sm-4 col-xs-4 add-member-label">City : </label>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+              <input type="text"  formControlName="city" maxlength="30" class="form-control" placeholder="Enter city" required>
+              <div *ngIf="!city.valid && (city.dirty || city.touched)" class="error-text">
+                City is required.
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-4 add-member-label" for="pwd">Address : </label>
+            <div class="col-sm-8">
+              <textarea class="form-control txtarea" maxlength="300" formControlName="courseAddress" rows="2" placeholder="Enter address" required></textarea>
+              <div *ngIf="!courseAddress.valid && (courseAddress.dirty || courseAddress.touched)" class="error-text">
+                <div *ngIf="courseAddress.errors.required">
+                  Course address is required
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-lg-4 col-md-4 col-sm-4 col-xs-4 add-member-label">Postal Code : </label>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+              <input type="text"  formControlName="postal" maxlength="7" (change)="zipcodeChange($event.target.value)" (keypress)="accept_alpha_numeric($event)" class="form-control" placeholder="Enter postal code" required>
+              <div *ngIf="!postal.valid && (postal.dirty || postal.touched)" class="error-text">
+                <div *ngIf="postal.errors.required">
+                  Postal Code is required.
+                </div>
+              </div>
+              <div *ngIf="postal.valid && (isValidZipcode == 1) && (postal.dirty || postal.touched)" class="error-text">
+                Postal Code is not valid. 
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-lg-4 col-md-4 col-sm-4 col-xs-4 add-member-label">Course Latitude : </label>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+              <input type="text"  formControlName="latitude" maxlength="30" class="form-control" placeholder="Enter course latitude" required>
+              <div *ngIf="!latitude.valid && (latitude.dirty || latitude.touched)" class="error-text">
+                <div *ngIf="latitude.errors.required">
+                  Latitude is required.
+                </div>
+              </div>
+              <div *ngIf="latitude.valid && ( (latitude.value > 90 ) || ( latitude.value < -90 ) ) && (latitude.dirty || latitude.touched)" class="error-text">
+                Latitude is not valid. 
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-lg-4 col-md-4 col-sm-4 col-xs-4 add-member-label">Course Longitude : </label>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+              <input type="text"  formControlName="longitude" maxlength="30" class="form-control" placeholder="Enter course longitude" required>
+              <div *ngIf="!longitude.valid && (longitude.dirty || longitude.touched)" class="error-text">
+                <div *ngIf="longitude.errors.required">
+                  Longitude is required.
+                </div>
+              </div>
+              <div *ngIf="longitude.valid && ( (longitude.value > 180 ) || ( longitude.value < -180 ) ) && (longitude.dirty || longitude.touched)" class="error-text">
+                Longitude is not valid. 
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-lg-4 col-md-4 col-sm-4 col-xs-4 add-member-label">Course Length ( In miles ) : </label>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+              <input type="text"  formControlName="radius" maxlength="7" (keypress)="accept_only_numbers($event)" class="form-control" placeholder="Enter course length" required>
+              <div *ngIf="!radius.valid && (radius.dirty || radius.touched)" class="error-text">
+                Course length is required.
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-lg-4 col-md-4 col-sm-4 col-xs-4 add-member-label">Golf Course URL : </label>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+              <input type="text"  formControlName="url" maxlength="100" class="form-control" placeholder="Enter golf course url" required>
+              <!-- <select class='form-control' formControlName="state" name="Select Location" (ngModelChange)='getLocationCities(leadContactDetailsForm.value.country, leadContactDetailsForm.value.state)' required>
+                <option value="" selected>--Select State--</option>
+                <option class='option' *ngFor='let option of stateList' [value]="option.state_name">{{option.state_name}}</option>
+              </select> -->
+              <div *ngIf="!url.valid && (url.dirty || url.touched)" class="error-text">
+                URL is required.
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <mat-dialog-actions align="end">
+        <button mat-raised-button [disabled]="!courseAddressForm.valid" [ngClass]="!courseAddressForm.valid ? '' : 'btn-success' " matStepperNext>Proceed</button>
+        <button mat-raised-button class="add-dark-hover btn-default" matStepperPrevious>Back</button>
+      </mat-dialog-actions>
+    </mat-step>
+    
+    <mat-step>
+      <div mat-dialog-content>
+        <form class="form-horizontal" novalidate [formGroup]="menuLocations">
+          <ng-template matStepLabel>Locations</ng-template>
+          <div class="table-responsive" style="margin-top:15px">
+            <mat-radio-group aria-label="Select an option" formControlName="defaultRadio">
+              <table class="table">
+                <thead class="tbl-head">
+                  <tr class="tr-grid-header">
+                    <th style="text-align:center!important">Select</th>
+                    <th style="text-align:center!important">Location Title</th>
+                    <th style="text-align:center!important">Set as Default</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="text-align:center!important;padding-top: 15px;"><mat-checkbox formControlName="locationOneCheck" (change)="triggerSomeEventOne()"></mat-checkbox></td>
+                    <td style="text-align:center!important"><input type="text" class="form-control" formControlName="locationOne"><input type="hidden" class="form-control" formControlName="locationOne_id"><input type="hidden" class="form-control" formControlName="locationOne_is_deleted"></td>
+                    <td style="text-align:center!important;padding-top: 15px;"><mat-radio-button value="locationOneRadio"></mat-radio-button></td>
+                  </tr>
+                  <tr>
+                    <td style="text-align:center!important;padding-top: 15px;"><mat-checkbox formControlName="locationTwoCheck" (change)="triggerSomeEventTwo()"></mat-checkbox></td>
+                    <td style="text-align:center!important"><input type="text" class="form-control" formControlName="locationTwo"><input type="hidden" class="form-control" formControlName="locationTwo_id"><input type="hidden" class="form-control" formControlName="locationTwo_is_deleted"></td>
+                    <td style="text-align:center!important;padding-top: 15px;"><mat-radio-button value="locationTwoRadio"></mat-radio-button></td>
+                  </tr>
+                  <tr>
+                    <td style="text-align:center!important;padding-top: 15px;"><mat-checkbox formControlName="locationThreeCheck" (change)="triggerSomeEventThree()"></mat-checkbox></td>
+                    <td style="text-align:center!important"><input type="text" class="form-control" formControlName="locationThree"><input type="hidden" class="form-control" formControlName="locationThree_id"><input type="hidden" class="form-control" formControlName="locationThree_is_deleted"></td>
+                    <td style="text-align:center!important;padding-top: 15px;"><mat-radio-button value="locationThreeRadio"></mat-radio-button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </mat-radio-group>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-lg-4 col-md-4 col-sm-4 col-xs-4 add-member-label">Popular items alias : </label>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+              <input type="text"  formControlName="alias" maxlength="30" class="form-control" placeholder="Alternative Name" required>
+              <div *ngIf="!alias.valid && (alias.dirty || alias.touched)" class="error-text">
+                Postal Code is required.
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-lg-4 col-md-4 col-sm-4 col-xs-4 add-member-label">Max Popular Items: </label>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+              <input type="text"  formControlName="maxItems" maxlength="30" class="form-control" placeholder="Number of popular items" required>
+              <div *ngIf="!maxItems.valid && (maxItems.dirty || maxItems.touched)" class="error-text">
+                Max items is required.
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+              <label class="control-label col-lg-4 col-md-4 col-sm-4 col-xs-4 add-member-label">Course PIN : </label>
+              <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <input type="text"  formControlName="coursePin" maxlength="30" class="form-control" placeholder="Enter course pin" required>
+                <!-- <select class='form-control' formControlName="state" name="Select Location" (ngModelChange)='getLocationCities(leadContactDetailsForm.value.country, leadContactDetailsForm.value.state)' required>
+                  <option value="" selected>--Select State--</option>
+                  <option class='option' *ngFor='let option of stateList' [value]="option.state_name">{{option.state_name}}</option>
+                </select> -->
+                <div *ngIf="!coursePin.valid && (coursePin.dirty || coursePin.touched)" class="error-text">
+                  Course PIN is required.
+                </div>
+              </div>
+            </div>
+        </form>
+      </div>
+      <mat-dialog-actions align="end">
+        <button mat-raised-button [disabled]="!menuLocations.valid" [ngClass]="!menuLocations.valid ? '' : 'btn-success' " matStepperNext>Proceed</button>
+        <button mat-raised-button class="add-dark-hover btn-default" matStepperPrevious>Back</button>
+      </mat-dialog-actions>
+    </mat-step>
+
+    <mat-step>
+      <div mat-dialog-content>
+        <form class="form-horizontal" novalidate [formGroup]="courseBankForm">
+          <ng-template matStepLabel>Bank Details</ng-template>
+
+          <div style="margin-top: 15px;" class="form-group">
+            <label class="control-label col-lg-4 col-md-4 col-sm-4 col-xs-4 add-member-label">Bank Name : </label>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+              <input type="text"  formControlName="bankName" maxlength="50" class="form-control" (keypress)="accept_alpha_numeric($event)" placeholder="Enter Bank Name" required>
+              <div *ngIf="!bankName.valid && (bankName.dirty || bankName.touched)" class="error-text">
+                Bank name is required.
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-4 add-member-label" for="pwd">Bank Address : </label>
+            <div class="col-sm-8">
+              <textarea class="form-control txtarea" maxlength="300" formControlName="bankAddress" rows="2" placeholder="Enter Address" required></textarea>
+              <div *ngIf="!bankAddress.valid && (bankAddress.dirty || bankAddress.touched)" class="error-text">
+                <div *ngIf="bankAddress.errors.required">
+                  Bank address is required
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-4 add-member-label">Bank Province : </label>
+            <div class="col-sm-8">
+              <select class='select-option form-control' required formControlName="bankProvince"  name="Select Bank Province">
+                <option value="" selected>--Select Bank Province--</option>
+                <option class='option' *ngFor='let province of provinces' [value]="province.id">{{province.province}}</option>
+              </select>
+              <div *ngIf="!bankProvince.valid && (bankProvince.dirty || bankProvince.touched)" class="error-text">
+                <div *ngIf="bankProvince.errors.required">
+                  Bank Province is required
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-lg-4 col-md-4 col-sm-4 col-xs-4 add-member-label">Bank City : </label>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+              <input type="text"  formControlName="BankCity" maxlength="30" (keypress)="accept_alpha_numeric($event)" class="form-control" placeholder="Enter Bank City" required>
+              <div *ngIf="!BankCity.valid && (BankCity.dirty || BankCity.touched)" class="error-text">
+                Bank City is required.
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="control-label col-lg-4 col-md-4 col-sm-4 col-xs-4 add-member-label">Bank Postal Code : </label>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+              <input type="text"  formControlName="bankPostal" maxlength="7" (keypress)="accept_alpha_numeric($event)" class="form-control" placeholder="Enter Bank Postal Code" required>
+              <div *ngIf="!bankPostal.valid && (bankPostal.dirty || bankPostal.touched)" class="error-text">
+                Bank Postal Code is required.
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 15px;" class="form-group">
+            <label class="control-label col-lg-4 col-md-4 col-sm-4 col-xs-4 add-member-label">Account Holder Name : </label>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+              <input type="text"  formControlName="accName" maxlength="50" class="form-control" (keypress)="accept_alpha_numeric($event)" placeholder="Enter Account Holder Name" required>
+              <div *ngIf="!accName.valid && (accName.dirty || accName.touched)" class="error-text">
+                Bank account holder name is required.
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-4 add-member-label"> Bank Account Class : </label>
+            <div class="col-sm-8">
+              <select class='select-option form-control' required formControlName="bankClass"  name="Select Account Class">
+                <option value="" selected>--Select Account Class--</option>
+                <option class='option' *ngFor='let class of classes' [value]="class.id">{{class.name}}</option>
+              </select>
+              <div *ngIf="!bankClass.valid && (bankClass.dirty || bankClass.touched)" class="error-text">
+                <div *ngIf="bankClass.errors.required">
+                  Bank Account Class is required
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-4 add-member-label"> Bank Account Type : </label>
+            <div class="col-sm-8">
+              <select class='select-option form-control' required formControlName="bankType"  name="Select Account Type">
+                <option value="" selected>--Select Account Type--</option>
+                <option class='option' *ngFor='let type of types' [value]="type.id">{{type.name}}</option>
+              </select>
+              <div *ngIf="!bankType.valid && (bankType.dirty || bankType.touched)" class="error-text">
+                <div *ngIf="bankType.errors.required">
+                  Bank Account Type is required
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-lg-4 col-md-4 col-sm-4 col-xs-4 add-member-label">Bank Id : </label>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+              <input type="text"  formControlName="bankId" maxlength="30" (keypress)="accept_alpha_numeric($event)" class="form-control" placeholder="Enter Bank Id" required>
+              <div *ngIf="!bankId.valid && (bankId.dirty || bankId.touched)" class="error-text">
+                Bank Id is required.
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-lg-4 col-md-4 col-sm-4 col-xs-4 add-member-label">Bank Account Id : </label>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+              <input type="text"  formControlName="bankAccountId" maxlength="30" (keypress)="accept_alpha_numeric($event)" class="form-control" placeholder="Enter Bank Account Id" required>
+              <div *ngIf="!bankAccountId.valid && (bankAccountId.dirty || bankAccountId.touched)" class="error-text">
+                Bank Account Id is required.
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-lg-4 col-md-4 col-sm-4 col-xs-4 add-member-label">Commision (percent) : </label>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+              <input type="text" (keypress)="accept_float_numbers($event)" formControlName="commissionPerc" maxlength="30" class="form-control" placeholder="Commision %" required>
+              <div *ngIf="!commissionPerc.valid && (commissionPerc.dirty || commissionPerc.touched)" class="error-text">
+                Commision percent is required.
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+      <mat-dialog-actions align="end">
+        <button mat-raised-button [disabled]="!courseBankForm.valid" [ngClass]="!courseBankForm.valid ? '' : 'btn-success' " matStepperNext>Proceed</button>
+        <button mat-raised-button class="add-dark-hover btn-default" matStepperPrevious>Back</button>
+      </mat-dialog-actions>
+    </mat-step>
+
+    <mat-step>
+      <div mat-dialog-content>
+        <form class="form-horizontal" novalidate [formGroup]="taxForm">
+          <ng-template matStepLabel>Taxes</ng-template>
+          <div class="form-group" style="margin-top: 15px;">
+            <label class="control-label col-lg-5 col-md-4 col-sm-4 col-xs-4 add-member-label">Service Fees (percent) : </label>
+            <div class="col-lg-7 col-md-8 col-sm-8 col-xs-8">
+              <input type="text"  (keypress)="accept_float_numbers($event)" formControlName="serviceFee" maxlength="30" class="form-control" placeholder="" required>
+              <!-- <select class='form-control' formControlName="state" name="Select Location" (ngModelChange)='getLocationCities(leadContactDetailsForm.value.country, leadContactDetailsForm.value.state)' required>
+                <option value="" selected>--Select State--</option>
+                <option class='option' *ngFor='let option of stateList' [value]="option.state_name">{{option.state_name}}</option>
+              </select> -->
+              <div *ngIf="!serviceFee.valid && (serviceFee.dirty || serviceFee.touched)" class="error-text">
+                Service Fee is required.
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-lg-5 col-md-4 col-sm-4 col-xs-4 add-member-label">Credit Card Fee (percent) : </label>
+            <div class="col-lg-7 col-md-8 col-sm-8 col-xs-8">
+              <input type="text"  (keypress)="accept_float_numbers($event)" formControlName="creditFee" maxlength="30" class="form-control" placeholder="" required>
+              <!-- <select class='form-control' formControlName="state" name="Select Location" (ngModelChange)='getLocationCities(leadContactDetailsForm.value.country, leadContactDetailsForm.value.state)' required>
+                <option value="" selected>--Select State--</option>
+                <option class='option' *ngFor='let option of stateList' [value]="option.state_name">{{option.state_name}}</option>
+              </select> -->
+              <div *ngIf="!creditFee.valid && (creditFee.dirty || creditFee.touched)" class="error-text">
+                Credit card fee is required.
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-lg-5 col-md-4 col-sm-4 col-xs-4 add-member-label">Tip (percent) : </label>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <input type="text" (keypress)="accept_only_numbers($event)" formControlName="tipPerc1" maxlength="2" class="form-control" placeholder="Tip 1" required>
+              <div *ngIf="!tipPerc1.valid && (tipPerc1.dirty || tipPerc1.touched)" class="error-text">
+                Tip 1 is required.
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <input type="text" (keypress)="accept_only_numbers($event)" formControlName="tipPerc2" maxlength="2" class="form-control" placeholder="Tip 2" required>
+              <div *ngIf="!tipPerc2.valid && (tipPerc2.dirty || tipPerc2.touched)" class="error-text">
+                Tip 2 is required.
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <input type="text" (keypress)="accept_only_numbers($event)" formControlName="tipPerc3" maxlength="2" class="form-control" placeholder="Tip 3" required>
+              <div *ngIf="!tipPerc3.valid && (tipPerc3.dirty || tipPerc3.touched)" class="error-text">
+                Tip 3 is required.
+              </div>
+            </div>
+          </div>
+          
+          <div class="table-responsive" style="margin-top:10px">
+            <table class="table">
+              <thead class="tbl-head">
+                <tr class="tr-grid-header">
+                  <th style="text-align:center!important">Select</th>
+                  <th style="text-align:center!important">Sales Tax</th>
+                  <th style="text-align:center!important">Set Value (%) </th>
+                  <th style="text-align:center!important">Mandatory/Optional</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="text-align:center!important;padding-top: 15px;"><mat-checkbox formControlName="gstCheck" (change)="triggertaxCheckOne()"></mat-checkbox></td>
+                  <td style="text-align:center!important;padding-top: 15px;">GST</td>
+                  <td style="text-align:center!important"><input type="text" (keypress)="accept_float_numbers($event)" class="form-control" formControlName="gstValue"></td>
+                  <td style="text-align:center!important">
+                    <mat-radio-group aria-label="Select an option" formControlName="gstManOpt">
+                      <mat-radio-button value="man" style="padding-right:5px;padding-top: 5px;">Man</mat-radio-button>
+                      <mat-radio-button value="opt">Opt</mat-radio-button>
+                    </mat-radio-group>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align:center!important;padding-top: 15px;"><mat-checkbox formControlName="pstCheck" (change)="triggertaxCheckTwo()"></mat-checkbox></td>
+                  <td style="text-align:center!important;padding-top: 15px;">PST</td>
+                  <td style="text-align:center!important"><input (keypress)="accept_float_numbers($event)" type="text" class="form-control" formControlName="pstValue"></td>
+                  <td style="text-align:center!important">
+                    <mat-radio-group aria-label="Select an option" formControlName="pstManOpt">
+                      <mat-radio-button value="man" style="padding-right:5px;padding-top: 5px;">Man</mat-radio-button>
+                      <mat-radio-button value="opt">Opt</mat-radio-button>
+                    </mat-radio-group>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align:center!important;padding-top: 15px;"><mat-checkbox formControlName="hstCheck" (change)="triggertaxCheckThree()"></mat-checkbox></td>
+                  <td style="text-align:center!important;padding-top: 15px;">HST</td>
+                  <td style="text-align:center!important"><input (keypress)="accept_float_numbers($event)" type="text" class="form-control" formControlName="hstValue"></td>
+                  <td style="text-align:center!important">
+                    <mat-radio-group aria-label="Select an option" formControlName="hstManOpt">
+                      <mat-radio-button value="man" style="padding-right:5px;padding-top: 5px;">Man</mat-radio-button>
+                      <mat-radio-button value="opt">Opt</mat-radio-button>
+                    </mat-radio-group>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align:center!important;padding-top: 15px;"><mat-checkbox formControlName="liquorCheck" (change)="triggertaxCheckFour()"></mat-checkbox></td>
+                  <td style="text-align:center!important;padding-top: 15px;">Liquor Tax</td>
+                  <td style="text-align:center!important"><input (keypress)="accept_float_numbers($event)" type="text" class="form-control" formControlName="liquorValue"></td>
+                  <td style="text-align:center!important">
+                    <mat-radio-group aria-label="Select an option" formControlName="liquorManOpt">
+                      <mat-radio-button value="man" style="padding-right:5px;padding-top: 5px;">Man</mat-radio-button>
+                      <mat-radio-button value="opt">Opt</mat-radio-button>
+                    </mat-radio-group>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </form>
+      </div>
+      <mat-dialog-actions align="end">
+        <button mat-raised-button [disabled]="( menuLocations.invalid || addUserForm.invalid || courseAddressForm.invalid || taxForm.invalid )" [ngClass]="( menuLocations.invalid || addUserForm.invalid || courseAddressForm.invalid || taxForm.invalid ) ? '' : 'btn-success'" (click)="saveCourse()"><span *ngIf="!course">Save</span><span
+          *ngIf="course">Update</span></button>
+          <button mat-raised-button class="add-dark-hover btn-default" matStepperPrevious>Back</button>
+        </mat-dialog-actions>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </div>

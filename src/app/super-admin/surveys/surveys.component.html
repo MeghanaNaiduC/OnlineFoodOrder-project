@@ -1,0 +1,59 @@
+<div fxLayout="row wrap" #resizedDiv>
+    <div class="flex-p w-100">
+        <!-- <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <div class="pills w-100 flex-p">
+            <ul class="nav nav-pills">
+              <li routerLinkActive="active"><a  mat-raised-button [routerLink]="['/918/admin/courses']"> <mat-icon>edit_location</mat-icon> Manage Courses</a></li>
+              <li routerLinkActive="active"><a  mat-raised-button [routerLink]="['/918/admin/orders']"> <mat-icon>shopping_cart</mat-icon> Member Orders</a></li>
+            </ul>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <div class="w-100 flex-p">
+          
+        </div>
+      </div>
+    </div> -->
+
+        <div class="col-md-12">
+            <div class="col-md-4">
+                <h3>Course Name : {{courseName}}</h3>
+            </div>
+            <div class="col-md-8">
+                <a [routerLink]="['/oFo/admin/courses']" class="btn btn-sm pull-right add-hover btn-default" style="margin:10px 0px;">
+                   Back</a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="surveys">
+                <mat-accordion *ngFor="let survey of surveys| keyvalue;let key=index;">
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                {{survey.key}}
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+
+                        <div class="question col-md-12" *ngFor="let question of questionsArr;let i=index;">
+                            <mat-card>
+                                <label>{{i+1}}&nbsp;&nbsp;{{question.question}}</label>
+                                <div class="form-group" *ngIf="question.question_type == 'rating'">
+                                    <nouislider #slider disabled [config]="someKeyboardConfig" [ngModelOptions]="{standalone: true}" [(ngModel)]="survey['value'][question.question_id]['answer']"></nouislider>
+                                </div>
+                                <div class="form-group" *ngIf="survey['value'][question.question_id]['remark']">
+                                    <label>{{question.question_type == 'rating' ? "Why did you choose that answer?" : "" }}</label>
+                                    <textarea class="form-control" rows="4" name="remarks[]" [value]="survey['value'][question.question_id]['remark']" readonly ngDefaultControl style="height: 99px !important;"></textarea>
+                                </div>
+                            </mat-card>
+                        </div>
+
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="surveys.length == 0">
+                <h3 style="text-align: center;">No records found</h3>
+            </div>
+        </div>
+    </div>

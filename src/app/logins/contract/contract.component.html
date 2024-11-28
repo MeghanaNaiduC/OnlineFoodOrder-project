@@ -1,0 +1,31 @@
+<!--Login page-->
+<style>
+    .login {
+        background: #229494!important;
+        color: white !important;
+    }
+    
+    .login:hover {
+        background: #4dadad!important
+    }
+</style>
+<mat-sidenav-container>
+    <div fxLayout="row" fxLayoutAlign="center center" class="h-100">
+        <form fxFlex="80" fxFlex.gt-sm="30" fxFlex.sm="60">
+            <mat-card class="p-0 mat-elevation-z24 box">
+                <div fxLayout="column" fxLayoutAlign="center center" class="bg-primary box-header">
+                    <img style="height: 60px;width:200px;margin-top:7px;margin-left:5px;" src="../assets/img/om_logo.png">
+                </div>
+                <mat-card-content fxLayout="column" fxLayoutAlign="end center" class="box-content">
+                    <mat-card fxLayout="column" fxLayoutAlign="center center" class="mat-elevation-z12 box-content-inner">
+                        <span class="box-content-header" style="margin-bottom: 15px; color: #283593 !important;">sign the contract</span>
+                        <span>Please sign the contract to activate oFo services</span>
+                    </mat-card>
+                    <div class="col-sm-10" style="margin-bottom: -115px; ">
+                        <button mat-raised-button style="margin-left:25%;" color="primary" class="mat-elevation-z12 box-button login pull-center" type="button" (click)="generateDocusignAuth()">Sign Contract</button>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </form>
+    </div>
+</mat-sidenav-container>

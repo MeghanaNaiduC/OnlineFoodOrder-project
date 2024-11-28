@@ -1,0 +1,152 @@
+<!-- <div class="row">
+    <div class="col-xs-12">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-top: 12px;">
+            <div class="pills w-100 flex-p">
+                <ul class="nav nav-pills">
+                    <li routerLinkActive="active"><a  mat-raised-button [routerLink]="['/918/locations']"> <mat-icon>edit_location</mat-icon> Manage Locations</a></li>
+                    <li routerLinkActive="active"><a  mat-raised-button [routerLink]="['/918/members']"> <mat-icon>group</mat-icon> Manage Members</a></li>
+                    <li routerLinkActive="active"><a  mat-raised-button [routerLink]="['/918/orders']"> <mat-icon>shopping_cart</mat-icon> Member Orders </a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="row">
+    <!-- left panel -->
+    <div class="col-xs-12">
+        <div class="col-xs-7" style="margin-top: 12px;">
+            <div class="list-bg-color">
+                <tabset class="out-tabset" #staticTabs >
+                    <tab *ngFor="let menu of menus" (select)="getMenuCategories(menu)">
+                        <ng-template tabHeading><span>{{menu.name}} <span *ngIf="menu.is_default">(Default)</span></span>
+                            <div style="text-align:center"><span [ngClass]="menu.is_active ? 'active-restaurent-link' : 'inactive-restaurent-link'"
+                                    style="font-size: 14px;color: #007de9;cursor: pointer;text-decoration: underline;"
+                                    (click)="updateMenuStatus('status',menu)">{{menu.is_active ? 'Active': 'Inactive'}}</span>
+                                <span *ngIf="menu.is_active && !menu.is_default"
+                                    style="font-size: 14px;color: #007de9;cursor: pointer;text-decoration: underline;padding-left: 12px;"
+                                    (click)="updateMenuStatus('default',menu)">Set Default</span>
+                            </div>
+                        </ng-template>
+                        <div class="list-bg-color in-tabset">
+                            <tabset [vertical]="true">
+                                <tab *ngFor="let category of categories;let catIndex=index;">
+                                    
+                                    <ng-template tabHeading *ngIf="category.menuSectionId" ><i class="fa fa-coffee" 
+                                            style="font-size:25px;"></i><span class="">{{category.category_name}} {{category.popular_item_num}}</span></ng-template>
+                                    <ng-template tabHeading *ngIf="!category.menuSectionId"><i class="fa fa-plus add-category-icon"
+                                            style="font-size:25px;" (click)="addCategory(menu)"></i></ng-template>
+                                    <div class="col-xs-12" >
+                                        <div class="col-xs-6 category-title" *ngIf="category.menuSectionId" >{{category.category_name}} {{category.popular_item_num}}</div>
+                                        <div class="col-xs-6 category-title" *ngIf="!category.menuSectionId"> </div>
+                                        <div class="col-xs-6" style="text-align:right;">
+                                            <div class=" create-category" *ngIf="category.menuSectionId" (click)="addCategory(menu)">Create</div>
+                                            <div class="edit-category" *ngIf="category.menuSectionId" (click)="openConfirmDialog('delete',1,'item',category.id,'category')"
+                                                style="color: red">Delete</div>
+                                            <div class="edit-category" *ngIf="category.menuSectionId" (click)="addCategory(category)">Edit</div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-xs-12" *ngIf="category.menuSectionId">
+                                        <div class="col-sm-10 col-sm-offset-1 cat-inner-section" *ngIf="category.tbl_items?.length > 0">
+                                            <div class="cat-inner-section-div" [ngClass]="{'popular-item': carts.is_popular}" *ngFor="let carts of category.tbl_items;let itemIndex=index;">
+                                                <div class="div-left">
+                                                    <div style="font-weight: bold;color: red" *ngIf="carts.is_out_of_stock">{{carts.name}}</div>
+                                                    <div style="font-weight: bold" *ngIf="!carts.is_out_of_stock">{{carts.name}}</div>
+                                                    <div><span>${{carts.price}}</span> <span style="font-style:italic">
+                                                            {{carts.foodDescription}}</span></div>
+                                                </div>
+                                                <div class="div-right">
+                                                    <div style="text-decoration:underline;cursor:pointer;color: #007de9" [ngClass]="{'color-white': carts.is_popular}" (click)="addItem(carts)">Edit</div>
+                                                    <div class="create-category-inner" [ngClass]="{'color-white': carts.is_popular}" (click)="openConfirmDialog('delete',1,'item',carts.id,'item');">Delete
+                                                        Item</div>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="cat-inner-section-div">
+                                                    <div class="div-left">
+                                                        <div style="font-weight: bold">Salmon Burger</div>
+                                                        <div><span>$2.50</span> <span style="font-style:italic"> Small</span></div>
+                                                    </div>
+                                                    <div class="div-right">
+                                                        <div style="text-decoration:underline">Edit</div>
+                                                        <div class="create-category-inner">Delete Item</div>
+                                                    </div>
+                                                </div>
+                                                <div class="cat-inner-section-div">
+                                                    <div class="div-left">
+                                                        <div style="font-weight: bold">Cheese Burger</div>
+                                                        <div><span>$3.50</span> <span style="font-style:italic"> Small</span></div>
+                                                    </div>
+                                                    <div class="div-right">
+                                                        <div style="text-decoration:underline">Edit</div>
+                                                        <div class="create-category-inner">Delete Item</div>
+                                                    </div>
+                                                </div> -->
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-sm-10 col-sm-offset-1 cat-inner-section no-items-div" *ngIf="category.catItems?.length == 0">
+                                        No items added yet.
+                                    </div>
+
+                                    <div class="col-xs-12" *ngIf="category.menuSectionId">
+                                        <div class="col-sm-8 col-sm-offset-2" style="text-align: center;">
+                                            <div style="cursor:pointer;display:inline-block;" (click)="addItem(category)">
+                                                <span style="font-size: 80px;line-height: 49px;">
+                                                    +
+                                                </span>
+                                                <div style="font-weight: bold;">
+                                                    Add Items
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <!-- <table style= "float: center;" width="100%" height="100%">
+                                            <tr *ngFor="let item of category.catItems">
+                                                <td><b>{{item.name}}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Edit</b></td>
+                                                <td>{{item.price}}  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b style="color:red">Delete Item</b></td>
+                                            </tr>
+                                        </table> -->
+                                </tab>
+                            </tabset>
+                        </div>
+                    </tab>
+                </tabset>
+            </div>
+        </div>
+        <!-- ./left panel -->
+        <!-- right panel -->
+        <div class="col-xs-5">
+        </div>
+        <!-- ./right panel -->
+    </div>
+</div>
+
+<!-- <div fxLayout="row wrap">
+            <div fxFlex="100" class="flex-p"> 
+                <mat-card class="p-0 mailbox">
+                    <mat-sidenav-container>
+                        <mat-sidenav #sidenav [opened]="sidenavOpen" [mode]="sidenavOpen ? 'side' : 'over'" class="mailbox-sidenav mat-elevation-z1">
+                            <mat-nav-list class="p-0 mailbox-sidenav-list" perfectScrollbar>
+                                <div *ngFor="let mail of mails" (click)="viewDetail(mail)">
+                                    <mat-list-item [ngClass]="{'unread': mail.unread, 'selected': mail.selected}">
+                                        <img *ngIf="mail.id == 4" matListAvatar  [src]="mail.senderPhoto">
+                                        <img *ngIf="mail.id != 4" matListAvatar src="assets/img/download.png">
+                                    </mat-list-item>
+                                    <mat-divider></mat-divider>
+                                </div>   
+                            </mat-nav-list>
+                        </mat-sidenav>              
+                        <div>
+                            <div class="mailbox-content" perfectScrollbar>
+                                Works
+                            </div>
+                        </div>            
+                    </mat-sidenav-container>
+                </mat-card>
+            </div>
+        </div> -->

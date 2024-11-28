@@ -1,0 +1,125 @@
+<!-- <div class="row">
+    <div class="col-xs-12">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-top: 12px;">
+            <div class="pills w-100 flex-p">
+                <ul class="nav nav-pills">
+                    <li routerLinkActive="active"><a  mat-raised-button [routerLink]="['/918/locations']"> <mat-icon>edit_location</mat-icon> Manage Locations</a></li>
+                    <li routerLinkActive="active"><a  mat-raised-button [routerLink]="['/918/members']"> <mat-icon>group</mat-icon> Manage Members</a></li>
+                    <li routerLinkActive="active"><a  mat-raised-button [routerLink]="['/918/orders']"> <mat-icon>shopping_cart</mat-icon> Member Orders </a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="row" style="margin-top: 14px;margin-bottom:14px;">
+    <div class="col-xs-12">
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+            <div class="col-sm-7">
+                <div class="col-sm-4">
+                    <select [(ngModel)] = "month" class="form-control" class="form-control">
+                        <option *ngFor="let month of months" [value]="month.id" >{{month.name}}</option>
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <select [(ngModel)] = "year" class="form-control" class="form-control">
+                        <option *ngFor="let year of years" [value]="year" >{{year}}</option>
+                    </select>
+                </div>
+                <div class="col-lg-2">
+                    <button class="add-hover btn btn-success" (click)="filterUsers()">Search</button>
+                </div>
+                <div class="col-lg-2" >
+                    <button class="btn filter-hover" style="background-color:#37474f; color:#fff !important" (click)="clearFilters()">Clear</button>
+                </div>
+            </div>
+            
+            <div class="col-sm-5">
+                <!-- <button  mat-raised-button class="pull-right add-hover btn-success margin-right-10" (click)="sendInvoice()">
+                    <mat-icon>email</mat-icon> Send Invoice 
+                </button> -->
+                <button  mat-raised-button class="pull-right add-hover btn-success margin-right-10" (click)="downloadOrders()">
+                    <mat-icon>save_alt</mat-icon> Export Orders 
+                </button>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- left panel -->
+    <div class="col-xs-12">
+        <div class="col-xs-8" >
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="tbl-head">
+                    <tr class="tr-grid-header">
+                        <!-- <th style="text-align:center">Member Name</th> -->
+                        <th style="text-align:center">Name</th>
+                        <th style="text-align:center">Mobile</th>
+                        <th style="text-align:center">Details</th>
+                        <th style="text-align:center">Total Price</th>
+                        <!-- <th style="text-align:center">Order Type</th> -->
+                        <!-- <th style="text-align:center">Status</th> -->
+                        <th style="text-align:center">Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngIf="!orders.length">
+                        <td colspan="6">No records found</td>
+                    </tr>
+                    <tr *ngFor="let order of orders">
+                        <td style="text-align:center">{{order.tbl_users.length ? order.tbl_users[0].firstName : ''}}</td>
+                        <td style="text-align:center">{{order.tbl_users.length ? order.tbl_users[0].phone : ''}}</td>
+                        <td style="text-align:center">
+                            <div *ngFor="let order of order.tbl_order_details ">
+                                <span style="font-size: 13px;"> <b>Item Name :</b> {{order.tbl_item.name}} <br>
+                                       <b>Qty : </b>{{order.quantity}} <br>
+                                       <b>Price : </b> $ {{order.price}}<br> 
+                                </span>
+                            </div>
+                        </td>
+                        <td style="text-align:center">$ {{order.totalPrice}}</td>
+                        <!-- <td style="text-align:center">{{order.orderDetails.memberOrder ? 'Member' : 'User'}}</td> -->
+                        <!-- <td style="text-align:center">{{order.status}}</td> -->
+                        <td style="text-align:center">{{order.dateAdded | date: 'medium'}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <mat-paginator [length]="totalSize" [pageIndex]="currentPage" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 50, 100]" (page)="handlePage($event)" showFirstLastButtons></mat-paginator>
+            </div>
+        </div>
+        <!-- ./left panel -->
+        <!-- right panel -->
+        <div class="col-xs-4">
+        </div>
+        <!-- ./right panel -->
+    </div>
+</div>
+
+<!-- <div fxLayout="row wrap">
+            <div fxFlex="100" class="flex-p"> 
+                <mat-card class="p-0 mailbox">
+                    <mat-sidenav-container>
+                        <mat-sidenav #sidenav [opened]="sidenavOpen" [mode]="sidenavOpen ? 'side' : 'over'" class="mailbox-sidenav mat-elevation-z1">
+                            <mat-nav-list class="p-0 mailbox-sidenav-list" perfectScrollbar>
+                                <div *ngFor="let mail of mails" (click)="viewDetail(mail)">
+                                    <mat-list-item [ngClass]="{'unread': mail.unread, 'selected': mail.selected}">
+                                        <img *ngIf="mail.id == 4" matListAvatar  [src]="mail.senderPhoto">
+                                        <img *ngIf="mail.id != 4" matListAvatar src="assets/img/download.png">
+                                    </mat-list-item>
+                                    <mat-divider></mat-divider>
+                                </div>   
+                            </mat-nav-list>
+                        </mat-sidenav>              
+                        <div>
+                            <div class="mailbox-content" perfectScrollbar>
+                                Works
+                            </div>
+                        </div>            
+                    </mat-sidenav-container>
+                </mat-card>
+            </div>
+        </div> -->

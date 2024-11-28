@@ -1,0 +1,18 @@
+<!--This page is used to manage the default settings for the whole of the applciation-->
+<div fxLayout="row wrap">
+    <div class="flex-p w-100">
+        <div class="row" style="margin-bottom:10px;">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <div class="w-100 flex-p">
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <div class="w-100 flex-p">
+                <button  mat-raised-button class="pull-right add-hover btn-success" (click)="saveSettings()"> Save </button>
+                </div>
+            </div>
+        </div>
+        <app-ngx-editor style="margin-top:10px;" [config]="editorConfig" [(ngModel)]="editorContent"></app-ngx-editor>
+        <!-- <div style="margin-top:10px;" [froalaEditor]='options' [(froalaModel)]="editorContent"></div> -->
+    </div>
+</div>

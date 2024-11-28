@@ -1,0 +1,37 @@
+<!-- <div fxLayout="row wrap" *ngIf="router.url != '/'">
+    <div fxFlex="100" class="flex-p">
+        <h2 style="font-weight:300;padding-left: 2px;padding-bottom: 8px;padding-bottom: 8px">{{moduleTitle ||
+            'Dashboard'}}</h2>
+        <mat-card fxLayout="row" class="breadcrumb">
+            <i class="material-icons" fxLayout="row" fxLayoutAlign="start center"> notes </i>
+            <span class="breadcrumb-title" fxLayout="row" fxLayoutAlign="start center"> {{description[moduleTitle] ||
+                description['Dashboard']}} </span>
+            <a *ngIf="router.url != '/'" routerLink="/" class="breadcrumb-item" fxLayout="row" fxLayoutAlign="start center"
+                (click)="closeSubMenus()">
+                <span class="">Home</span>
+            </a>
+            <div *ngFor="let breadcrumb of breadcrumbs; let i = index;" class="breadcrumb-item" fxLayout="row"
+                fxLayoutAlign="start center">
+                <a [hidden]="i == (breadcrumbs.length - 1)" [routerLink]="[breadcrumb.url]">{{breadcrumb.name}}</a>
+                <span [hidden]="i != (breadcrumbs.length - 1)" class="breadcrumb-title active">{{breadcrumb.name}}</span>
+            </div>
+        </mat-card>
+    </div>
+</div> -->
+
+
+
+<div fxLayout="row wrap" class="breadcrumb" *ngIf="router.url != '/'">
+    <div fxFlex="100" class="">
+        <h3 style="margin-top:10px;margin-bottom:5px;padding-left: 18px;">{{moduleTitle||'Dashboard'}}</h3>
+        <mat-card fxLayout="row" class="breadcrumb helptext bc" style="margin-top:18px;">
+            <div fxFlex="100" class="flex-p">
+                <span *ngIf="!description[moduleTitle][subTitle]" class="page-title nomargin"> {{description[moduleTitle] || description['Dashboard']}} </span>
+                <span *ngIf="description[moduleTitle][subTitle]" class="page-title nomargin">{{description[moduleTitle][subTitle]}}</span>
+                <div fxLayout="row" style="float: right !important;" class="pull-right">
+                    
+                </div>
+            </div>
+        </mat-card>
+    </div>
+</div>

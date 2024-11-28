@@ -1,0 +1,45 @@
+<!--This page is used to manage the default settings for the whole of the applciation-->
+<div fxLayout="row wrap" #resizedDiv>
+    <div class="flex-p w-100">
+        <div class="table-responsive">
+            <table id="example2" style="margin-top: 10px" class="table table-bordered table-hover table-striped">
+                <thead class="tbl-head">
+                    <tr class="tr-grid-header">
+                        <th>State Name</th>
+                        <th>GST</th>
+                        <th>PST</th>
+                        <th>HST</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngIf="showEmpty"><td colspan="5">No records found</td></tr>
+                    <tr *ngFor="let item of tableList">
+                        <td>{{item.name}}</td>
+                        <td>
+                            <div>
+                                <input type="text" [(ngModel)] = "item.gst" class="form-control" (keypress)="accept_float_numbers($event)"  placeholder="Enter GST Tax Value" required>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <input type="text" [(ngModel)] = "item.pst" class="form-control" (keypress)="accept_float_numbers($event)"  placeholder="Enter PST Tax Value" required>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <input type="text" [(ngModel)] = "item.hst" class="form-control" (keypress)="accept_float_numbers($event)"  placeholder="Enter HST Tax Value" required>
+                            </div>
+                        </td>
+                        <td>
+                            <button type="button" style="margin-right: 10px; text-decoration: none" class="btn btn-success" (click)="saveTaxes(item);">
+                                Save
+                        </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <mat-paginator [length]="totalSize" [pageIndex]="currentPage" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 50, 100]" (page)="handlePage($event)" showFirstLastButtons></mat-paginator>
+        </div>
+    </div>
+</div>

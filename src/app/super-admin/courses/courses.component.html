@@ -1,0 +1,125 @@
+<div fxLayout="row wrap" #resizedDiv>
+    <div class="flex-p w-100">
+        <!-- <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <div class="pills w-100 flex-p">
+            <ul class="nav nav-pills">
+              <li routerLinkActive="active"><a  mat-raised-button [routerLink]="['/918/admin/courses']"> <mat-icon>edit_location</mat-icon> Manage Courses</a></li>
+              <li routerLinkActive="active"><a  mat-raised-button [routerLink]="['/918/admin/orders']"> <mat-icon>shopping_cart</mat-icon> Member Orders</a></li>
+            </ul>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <div class="w-100 flex-p">
+          
+        </div>
+      </div>
+    </div> -->
+
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <div class="w-100 flex-p">
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <div class="w-100 flex-p">
+                    <button mat-raised-button class="pull-right add-hover btn-success" (click)="openCourseDialog(null)">
+              <mat-icon>add</mat-icon> Add
+              Course
+            </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="table-responsive topmargin">
+                    <table class="table table-bordered table-hover">
+                        <thead class="tbl-head">
+                            <tr class="tr-grid-header">
+                                <th>Course Name</th>
+                                <th>Survey Info</th>
+                                <th>Contact Name</th>
+                                <th>Email</th>
+                                <th>Mobile</th>
+                                <th>Province</th>
+                                <th>City</th>
+                                <th class="text-center">Locations</th>
+                                <th class="text-center">GST</th>
+                                <th class="text-center">PST</th>
+                                <th class="text-center">HST</th>
+                                <th class="text-center">Liquor Tax</th>
+                                <th>Tip %</th>
+                                <th class="text-center">Reset Password</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="showEmpty">
+                                <td colspan="14">No records found</td>
+                            </tr>
+                            <tr *ngFor="let course of courses">
+                                <td>{{course.name}}</td>
+                                <td class="text-center"><a title="Click to view surveys" style="cursor: pointer;color: #007ad9;" (click)="viewCourseSurveys(course)">
+                      View
+                    </a></td>
+                                <td>{{course.tbl_admin_users[0].name}}</td>
+                                <td title="{{course.tbl_admin_users[0].email}}">{{course.tbl_admin_users[0].email | slice:0:8}}...</td>
+                                <td>{{course.tbl_admin_users[0].phone}}</td>
+                                <td>{{course.tbl_admin_users[0].tbl_state.name}}</td>
+                                <td>{{course.tbl_admin_users[0].tbl_city.name}}</td>
+                                <td class="text-center" title="{{course.menusText}}">{{course.tbl_menu_sections.length}}</td>
+                                <td class="text-center">{{course.gst}}</td>
+                                <td class="text-center">{{course.pst}}</td>
+                                <td class="text-center">{{course.hst}}</td>
+                                <td class="text-center">{{course.liquor}}</td>
+                                <td>{{course.tipPerc ? course.tipPerc : 0}}</td>
+                                <td class="text-center"><a title="Click to reset password" style="margin-right: 10px; cursor: pointer;color: #007ad9;" (click)="openRestPasswordDialog(course)">
+                      Reset
+                    </a></td>
+                                <td class="text-center">
+                                    <a [ngClass]="course.is_active ? 'status' : 'status Red'" mwlConfirmationPopover [popoverTitle]="popoverStatusTitle" [popoverMessage]="popoverStatusMessage" placement="left" (confirm)="updateCourseStatus(course.id, !course.is_active, 'status')" (cancel)="cancelClicked = true">
+                      {{course.is_active ? 'Active':'Inactive'}}
+                      </a>
+                                </td>
+                                <td class="text-center" style="width: 73px;">
+                                    <a title="Edit Course" style="margin-right: 10px; cursor: pointer;" (click)="openCourseDialog(course)">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <a mwlConfirmationPopover [popoverTitle]="popoverTitle" [popoverMessage]="popoverMessage" placement="left" (confirm)="updateCourseStatus(course.id, !course.is_deleted, 'delete')" (cancel)="cancelClicked = true">
+                                        <i style="cursor: pointer;" title="Delete Course" class="fa fa-trash red"></i>
+                                    </a>
+                                </td>
+                                <!-- <td>{{user.name}}</td>
+                  <td>{{user.email}} 
+                    <i *ngIf="user.is_verified" title="User verified" class="fa fa-check Green" aria-hidden="true"></i> 
+                    <i *ngIf="!user.is_verified" title="User not verified" class="fa fa-times Red" aria-hidden="true"></i>
+                  </td>
+                  <td>{{user.phone}}</td>
+                  <td *ngIf="canCreate || canUpdate"><a routerLink="permissions/{{user.user_id}}">{{user.permissions}}</a></td>
+                  <td>{{user.role_owner}}</td>
+                  <td *ngIf="!user.is_verified" class="Red"> {{user.is_active?'Active':'Inactive'}} </td>
+                  <td *ngIf="!canUpdate && user.is_verified" [ngClass]="user.is_active ? '' : 'status Red'">{{user.is_active?'Active':'Inactive'}}</td>
+                  <td *ngIf="canUpdate && user.is_verified">
+                    <a 
+                    [ngClass]="user.is_active ? 'status' : 'status Red'"
+                    mwlConfirmationPopover
+                    [popoverTitle]="popoverStatusTitle"
+                    [popoverMessage]="popoverStatusMessage"
+                    placement="left"
+                    (confirm)="updateUser(user.user_id, !user.is_active, 'status');"
+                    (cancel)="cancelClicked = true">
+                    {{user.is_active?'Active':'Inactive'}}
+                  </a>
+                </td> -->
+
+                            </tr>
+                        </tbody>
+                    </table>
+                    <mat-paginator [length]="totalSize" [pageIndex]="currentPage" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 50, 100]" (page)="handlePage($event)" showFirstLastButtons></mat-paginator>
+                    <!-- <mat-paginator [length]="totalSize" [pageIndex]="currentPage" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 50, 100]" (page)="handlePage($event)" showFirstLastButtons></mat-paginator> -->
+                </div>
+            </div>
+        </div>
+    </div>

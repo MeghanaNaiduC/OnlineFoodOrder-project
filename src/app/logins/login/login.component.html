@@ -1,0 +1,46 @@
+<!--Login page html-->
+<style>
+    .login{
+    background: #229494!important;
+    color: white !important;
+    }
+    .login:hover {
+        background: #4dadad!important
+    }
+</style>
+<mat-sidenav-container>
+    <div fxLayout="row" fxLayoutAlign="center center" class="h-100">
+        <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" fxFlex="80" fxFlex.gt-sm="30" fxFlex.sm="60">
+            <mat-card class="p-0 mat-elevation-z24 box">
+                <div fxLayout="column" fxLayoutAlign="center center" class="bg-primary box-header">
+                    <img style="width:200px;margin-top:7px;margin-left:5px;" src="../assets/img/om_logo.png">
+                </div>
+                <mat-card-content fxLayout="column" fxLayoutAlign="end center" class="box-content">
+                    <mat-card fxLayout="column" fxLayoutAlign="center center" class="mat-elevation-z12 box-content-inner">
+                        <!-- <span class="box-content-header">member login</span> -->
+                        <mat-form-field class="w-100">
+                            <input matInput placeholder="Phone" formControlName="email" (keypress)="omit_special_char($event)">
+                            <mat-error *ngIf="form.controls.email.errors?.required">Phone is required</mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="w-100">
+                            <div class="input-group">
+                                <input matInput placeholder="Password" [type]="show ? 'text' : 'password'" formControlName="password">
+                                <span class="input-group-addon"><i class="fa fa-eye-slash" (click)="show = !show" ></i></span>
+                            </div>
+                            <mat-error *ngIf="form.controls.password.errors?.required">Password is required</mat-error>
+                            <mat-error *ngIf="form.controls.password.hasError('minlength')">Password isn't long enough,
+                                minimum of 6 characters</mat-error>
+                        </mat-form-field>
+                        <div class="w-100">
+                                <mat-checkbox formControlName="rememberMe">Remember me!</mat-checkbox>
+                            <a [routerLink]="['/forgotpassword']"  class="pull-right" style="margin-bottom: 25px;color: black;margin: 0px auto;display: block;"><b>Forgot Password?</b></a>
+                        </div>
+                    </mat-card>
+                    <button mat-raised-button color="primary" class="mat-elevation-z12 box-button login" type="submit">SIGN
+                        IN</button>
+                </mat-card-content>
+                <!-- <a style="color:black;margin-left: 80px;" mat-button [routerLink]="['/register']">Don't have an account? Sign up now!</a> -->
+            </mat-card>
+        </form>
+    </div>
+</mat-sidenav-container>

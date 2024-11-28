@@ -1,0 +1,94 @@
+<h1 mat-dialog-title> {{ idea ? "Update Item": "Add Item"   }} </h1><hr>
+<div mat-dialog-content>
+  
+  <form class="form-horizontal" novalidate [formGroup]="addIdeaForm">
+    <div class="form-group">
+      <label class="control-label col-sm-4 add-member-label">Subject: </label>
+      <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+        <input type="text" formControlName="addSubject" [maxlength]="100" minlength="1" class="form-control" id="addSubject" name="addSubject" placeholder="Enter Subject" required>
+        <!-- <div *ngIf="addUserForm.hasError('required', 'addUserName')" class="error-text">
+          User name is required!
+        </div> -->
+        <div *ngIf="!addSubject.valid && (addSubject.dirty || addSubject.touched)" class="error-text">
+          <div *ngIf="addSubject.errors.required">
+            Subject is required
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label class="control-label col-sm-4 add-member-label">Description: </label>
+      <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+        <textarea formControlName="addDescription" rows="2" class="form-control txtarea" id="addSubject" name="addSubject" placeholder="Enter description" required></textarea>
+        <!-- <div *ngIf="addUserForm.hasError('required', 'addUserName')" class="error-text">
+          User name is required!
+        </div> -->
+        <div *ngIf="!addDescription.valid && (addDescription.dirty || addDescription.touched)" class="error-text">
+          <div *ngIf="addDescription.errors.required">
+            Description is required
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label class="control-label col-sm-4 add-member-label" for="code">Priority: </label>
+      <div class="col-sm-8">
+        <select class="form-control" onDrag="return false" onDrop="return false" formControlName="addPriority" id="addPriority" required>
+          <option value="" selected>--Select Priority level--</option>
+          <option *ngFor="let priority of priorities" [value]="priority.id">{{ priority.level }} </option>
+        </select>
+        <div *ngIf="!addPriority.valid && (addPriority.dirty || addPriority.touched)" class="error-text">
+          Priority is required.
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-4">Dev Date: </label>
+      <div class="col-sm-8">
+        <div class="input-icon right">
+          <input class="form-control" formControlName="devDate" placeholder="MM/DD/YYYY"  class="form-control" id="db" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" name="dt1">
+          <owl-date-time [pickerType]="'calendar'" #dt1></owl-date-time>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-4">QA Date: </label>
+      <div class="col-sm-8">
+        <div class="input-icon right">
+          <input class="form-control" formControlName="qaDate" placeholder="MM/DD/YYYY"  class="form-control" id="db" [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2" name="dt2">
+          <owl-date-time [pickerType]="'calendar'" #dt2></owl-date-time>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-4">Target Date: </label>
+      <div class="col-sm-8">
+        <div class="input-icon right">
+          <input class="form-control" formControlName="targetDate"  placeholder="MM/DD/YYYY"  class="form-control" id="db" [owlDateTimeTrigger]="dt3" [owlDateTime]="dt3" name="dt3">
+          <owl-date-time [pickerType]="'calendar'" #dt3></owl-date-time>
+        </div>
+      </div>
+    </div>
+    <!-- <div *ngIf="idea" class="form-group">
+      <label class="control-label col-sm-4">Target Date: </label>
+      <div class="col-sm-8">
+        <div class="input-icon right">
+          <input class="form-control" formControlName="targetDate" [min]="minDate" placeholder="MM/DD/YYYY" class="form-control" id="db" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" name="dt1"> 
+          <owl-date-time [pickerType]="'calendar'" #dt1></owl-date-time>
+        </div>
+        <div *ngIf="!targetDate.valid && (targetDate.dirty || targetDate.touched)" class="error-text">
+          <div *ngIf="targetDate.errors.required">
+            Target date is required 
+          </div>
+        </div>
+      </div>
+    </div> -->
+    
+  </form>
+</div>
+<mat-dialog-actions align="end">
+  <button mat-raised-button [disabled]="!addIdeaForm.valid" [ngClass]="!addIdeaForm.valid ? '': 'btn-success'  " (click)="saveIdea()">{{ idea ? "Update": "Save"   }}</button>
+  <button mat-raised-button class="add-dark-hover btn-default" (click)="close()">Cancel</button>
+</mat-dialog-actions> 

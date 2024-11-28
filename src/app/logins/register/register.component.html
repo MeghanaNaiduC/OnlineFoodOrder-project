@@ -1,0 +1,235 @@
+<!--Login page-->
+<style>
+    .login {
+        background: #229494!important;
+        color: white !important;
+    }
+    
+    .login:hover {
+        background: #4dadad!important
+    }
+</style>
+<img style="width:200px;margin-top:7px;margin-left:558px;" src="../assets/img/om_logo.png">
+<mat-sidenav-container>
+
+    <div fxLayout="row" fxLayoutAlign="center center" class="h-100 register-div">
+        <h3>Member Registration</h3>
+        <mat-horizontal-stepper #stepper style="width:40%; margin:0 auto;text-align:left;">
+
+            <mat-step>
+                <form class="form-horizontal" novalidate [formGroup]="form">
+
+                    <div mat-dialog-content>
+                        <ng-template matStepLabel>Basic Details</ng-template>
+                        <!-- <mat-card class="p-0 mat-elevation-z24 boxes"> -->
+                        <!-- <div fxLayout="column" fxLayoutAlign="center center" class="bg-primary box-header">
+                                <img style="height: 60px;width:200px;margin-top:7px;margin-left:5px;" src="https://www.9-eighteen.com/images/all-images/Logo.png">
+                            </div> -->
+                        <!-- <mat-card-content fxLayout="column" fxLayoutAlign="end center" class="box-content">
+                                <mat-card fxLayout="column" fxLayoutAlign="center center" class="mat-elevation-z12 box-content-inner"> -->
+                        <!-- <span class="box-content-header">REGISTER MEMBER</span> -->
+                        <div class="row" style="margin-bottom:7px;">
+                            <div class="col-lg-6">
+                                <span>Contact Name</span>
+                                <div>
+                                    <input type="text" formControlName="contactName" placeholder="Enter contact name" class="form-control">
+                                    <div *ngIf="!contactName.valid && (contactName.dirty || contactName.touched)" class="error-text">
+                                        <div *ngIf="contactName.errors.required">
+                                            Contact Name is required
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <span>Phone Number</span>
+                                <input type="text" formControlName="contactPhone" placeholder="Enter phone number" (keypress)="numberOnly($event)" maxlength="10" class="form-control">
+                                <div *ngIf="!contactPhone.valid && (contactPhone.dirty || contactPhone.touched)" class="error-text">
+                                    <div *ngIf="contactPhone.errors.required">
+                                        Contact Phone is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom:7px;">
+                            <div style="margin-right: 212px;" class="col-lg-12">
+                                <span>Email</span><br>
+                                <input type="text" formControlName="email" email placeholder="Enter email" class="form-control">
+                                <div *ngIf="!email.valid && (email.dirty || email.touched)" class="error-text">
+                                    <div *ngIf="email.errors.required">
+                                        Email is required
+                                    </div>
+                                    <div *ngIf="email.errors?.email">
+                                        Enter a valid email
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom:7px;">
+                            <div class="col-lg-6">
+                                <span>Create Password</span>
+                                <input type="password" formControlName="password" placeholder="Enter password" class="form-control">
+                                <div *ngIf="!password.valid && (password.dirty || password.touched)" class="error-text">
+                                    <div *ngIf="password.errors.required">
+                                        Password is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <span>Confirm Password</span>
+                                <input type="password" formControlName="Confirmpassword" placeholder="Enter password" class="form-control">
+                                <div *ngIf="!Confirmpassword.valid && (Confirmpassword.dirty || Confirmpassword.touched)" class="error-text">
+                                    <div *ngIf="Confirmpassword.errors.required">
+                                        Password is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="Confirmpassword.errors" style="color: red">
+                            Passwords doesn't match
+                        </div>
+                        <!-- <div class="row" style="margin-bottom:7px;">
+                            <div style="margin-right: 212px;" class="col-lg-12">
+                                <span>Golf Course Name</span><br>
+                                <input type="text" formControlName="golfCourseName" placeholder="Enter golf course name"
+                                    class="form-control">
+                                <div *ngIf="!golfCourseName.valid && (golfCourseName.dirty || golfCourseName.touched)"
+                                    class="error-text">
+                                    <div *ngIf="golfCourseName.errors.required">
+                                        Golf Course Name is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                    <mat-dialog-actions align="end">
+                        <button style="float:right !important" mat-raised-button type="submit" [ngClass]="(  form.invalid ) ? '' : 'btn-success'" matStepperNext>Proceed</button>
+                        <button style="float:right !important;margin-right: 8px" mat-raised-button (click)="goHome()" type="submit" class="btn-default">Cancel</button>
+                    </mat-dialog-actions>
+                </form>
+
+            </mat-step>
+
+            <mat-step>
+                <div mat-dialog-content>
+                    <form class="form-horizontal" novalidate [formGroup]="addressForm">
+                        <ng-template matStepLabel>Address Details</ng-template>
+                        <!-- <mat-card class="p-0 mat-elevation-z24 boxes"> -->
+                        <!-- <div fxLayout="column" fxLayoutAlign="center center" class="bg-primary box-header">
+                                    <img style="height: 60px;width:200px;margin-top:7px;margin-left:5px;" src="https://www.9-eighteen.com/images/all-images/Logo.png">
+                                </div> -->
+                        <!-- <mat-card-content fxLayout="column" fxLayoutAlign="end center" class="box-content">
+                                    <mat-card fxLayout="column" fxLayoutAlign="center center" class="mat-elevation-z12 box-content-inner"> -->
+                        <!-- <span class="box-content-header">REGISTER MEMBER</span> -->
+                        <div class="row" style="margin-bottom:5px;">
+                            <div style="margin-right: 206px;" class="col-lg-12">
+                                <span>Golf Course Address</span><br>
+                                <input type="text" formControlName="golfCourseAddress" placeholder="Enter golf course address" class="form-control">
+                                <div *ngIf="!golfCourseAddress.valid && (golfCourseAddress.dirty || golfCourseAddress.touched)" class="error-text">
+                                    <div *ngIf="golfCourseAddress.errors.required">
+                                        Golf Course Address is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 5px" class="row">
+                            <div class="col-lg-4">
+                                <span>City</span><br>
+                                <input type="text" placeholder="city" formControlName="city" class="form-control">
+                                <div *ngIf="!city.valid && (city.dirty || city.touched)" class="error-text">
+                                    <div *ngIf="golfCourseAddress.errors.required">
+                                        City is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <span>State</span><br>
+                                <input type="text" placeholder="state" formControlName="state" class="form-control">
+                                <div *ngIf="!state.valid && (state.dirty || state.touched)" class="error-text">
+                                    <div *ngIf="state.errors.required">
+                                        State is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <span>Zip/Postal Code</span><br>
+                                <input type="text" placeholder="zip" formControlName="zip" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="7">
+                                <div *ngIf="!zip.valid && (zip.dirty || zip.touched)" class="error-text">
+                                    <div *ngIf="zip.errors.required">
+                                        Zip/Postal Code is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div style="margin-right: 212px;" class="col-lg-12">
+                                <span>Golf Course URL</span><br>
+                                <input type="text" formControlName="url" placeholder="Enter golf course URL" class="form-control">
+                                <div *ngIf="!url.valid && (url.dirty || url.touched)" class="error-text">
+                                    <div *ngIf="url.errors.required">
+                                        Golf Course URL is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="checkbox">
+                            <input type="checkbox" style="margin-left: 80px;" formControlName="termsnconds">
+                            <p style="text-align:center">I agree to the terms and conditions of oFo</p>
+                        </div>
+
+                    </form>
+                </div>
+                <mat-dialog-actions align="end">
+                    <button mat-raised-button style="float:right!important" type="submit" [ngClass]="!addressForm.valid ? '' : 'btn-success'" [disabled]="!addressForm.valid" (click)=saveUser()>Submit</button>
+                    <button mat-raised-button style="float:right!important;margin-right: 8px" class="add-dark-hover btn-default" matStepperPrevious>Back</button>
+                </mat-dialog-actions>
+            </mat-step>
+
+            <!-- <mat-form-field class="w-100">
+                            <input matInput placeholder="Contact Name" formControlName="name">
+                            <mat-error *ngIf="form.controls.name.errors?.required">Name is required</mat-error>
+                        </mat-form-field> -->
+            <!-- <mat-form-field class="w-100">
+                            <input matInput placeholder="Contact Phone" formControlName="phone">
+                            <mat-error *ngIf="form.controls.phone.errors?.required">Contact Number is required</mat-error>
+                            <mat-error *ngIf="form.controls.phone.hasError('minlength')">Number isn't long enough,
+                                minimum of 6 characters</mat-error>
+                            </mat-form-field>
+                            <mat-form-field class="w-100">
+                                <input matInput placeholder="Email" formControlName="email">
+                                <mat-error *ngIf="form.controls.email.errors?.required">Email is required</mat-error>
+                                <mat-error *ngIf="form.controls.email.hasError('invalidEmail')">Invalid email address</mat-error>
+                            </mat-form-field> -->
+            <!-- <mat-form-field class="w-100">
+                                <input matInput placeholder="Password" type="password" formControlName="password">
+                                <mat-error *ngIf="form.controls.password.errors?.required">Password is required</mat-error>
+                                <mat-error *ngIf="form.controls.password.hasError('minlength')">Password isn't long enough,
+                                    minimum of 6 characters</mat-error>
+                                </mat-form-field>
+                                <mat-form-field class="w-100">
+                                    <input matInput type="password" placeholder="Confirm New Password" formControlName="confirmPassword">
+                                    <mat-error *ngIf="form.controls.confirmPassword.errors?.required">Confirm Password is required</mat-error>
+                                    <mat-error *ngIf="form.controls.confirmPassword.hasError('mismatchedPasswords')">Passwords do not match</mat-error>
+                                </mat-form-field>
+                                <mat-form-field class="w-100">
+                                    <input matInput placeholder="Golf Course Name" formControlName="golfname">
+                                    <mat-error *ngIf="form.controls.golfname.errors?.required">Golf Course name is required</mat-error>
+                                </mat-form-field> -->
+            <!-- <mat-form-field class="w-100">
+                                    <input matInput placeholder="Golf Course Address" formControlName="address">
+                                    <mat-error *ngIf="form.controls.address.errors?.required">Golf Course address is required</mat-error>
+                                </mat-form-field> -->
+            <!-- <mat-form-field class="w-100">
+                                    <input matInput placeholder="Golf Course URL" formControlName="url">
+                                </mat-form-field> -->
+            <!-- </mat-card>
+                                    <div class="col-sm-10" style="top: 360px; ">
+                                        <button mat-raised-button color="primary" class="mat-elevation-z12 box-button login pull-right" type="submit">Submit</button>
+                                        <button mat-raised-button color="primary" class="col-sm-5 mat-elevation-z12 box-button filter-hover" (click)="goBack()">Back</button>
+                                    </div>
+                                </mat-card-content> -->
+            <!-- </mat-card> -->
+            <!-- </form> -->
+
+        </mat-horizontal-stepper>
+    </div>
+</mat-sidenav-container>
